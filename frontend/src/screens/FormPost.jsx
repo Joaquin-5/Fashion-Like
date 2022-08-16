@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
 import "../index.css";
+import { UploadImageButton } from "../components/UploadImageButton";
 
 const opciones = [
   {
@@ -25,12 +26,13 @@ export const FormPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [gender, setGender] = useState("");
-  //   const [image, setImage] = useState("");
+  const [image, setImage] = useState("");
   const [season, setSeason] = useState("");
+  const inputFile = useRef(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ gender, title, description, season });
+    console.log({ gender, title, description, season, image });
   };
 
   return (
@@ -52,7 +54,7 @@ export const FormPost = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <Button variant="contained">Agregue una imágen</Button>
+        <UploadImageButton inputFile={inputFile} setImage={setImage} />
         <TextField
           id="filled-basic"
           label="Género"
