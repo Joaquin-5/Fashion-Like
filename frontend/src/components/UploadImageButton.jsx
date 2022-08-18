@@ -1,11 +1,10 @@
 import React from "react";
-import { Button } from '@mui/material'
+import { Button } from "@mui/material";
 
-export const UploadImageButton = ({ setImage, inputFile }) => {
-  const handleChange = () => {
-    setImage(inputFile.current.files);
-  };
-
+export const UploadImageButton = ({
+  inputFile,
+  handleImageUpload,
+}) => {
   return (
     <>
       <Button
@@ -13,7 +12,13 @@ export const UploadImageButton = ({ setImage, inputFile }) => {
         color="primary"
         onClick={() => inputFile.current.click()}
       >
-        <input type="file" ref={inputFile} onChange={handleChange} hidden />
+        <input
+          type="file"
+          ref={inputFile}
+          onChange={handleImageUpload}
+          hidden
+          accept="image/jpg, image/jpeg"
+        />
         Upload File
       </Button>
     </>
