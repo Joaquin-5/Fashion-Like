@@ -55,7 +55,7 @@ export const FormPost = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <UploadImageButton inputFile={inputFile} setImage={setImage} />
-        <TextField
+        {/* <TextField
           id="filled-basic"
           label="Género"
           variant="outlined"
@@ -77,7 +77,7 @@ export const FormPost = () => {
           value={season}
           onChange={(e) => setSeason(e.target.value)}
           helperText="Elija la temporada"
-        />
+        /> */}
         <Button type="submit" variant="contained">
           Enviar
         </Button>
