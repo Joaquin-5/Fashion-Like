@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 
 import "../index.css";
-import { UploadImageButton } from "../components/UploadImageButton";
+import { UploadImageButton } from "../UploadImageButton";
 
 const opciones = [
   {
