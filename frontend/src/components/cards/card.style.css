@@ -1,0 +1,24 @@
+.text-area {
+    width: 100%;
+    max-width: 100%;
+    resize: none;
+}
+
+.imagen {
+    position: relative;
+}
+
+.imagen:hover {
+    background-color: rgba(0, 0, 0, .5);
+    cursor: pointer;
+}
+
+.imagen:hover::after {
+    position: absolute;
+    content: 'Subir nueva imagen';
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: 0 auto;
+}

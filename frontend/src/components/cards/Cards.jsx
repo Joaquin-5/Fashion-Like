@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./card.style.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -14,9 +14,30 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { UploadImageButton } from "../UploadImageButton";
+
+const imageMimeType = /image\/(jpg|jpeg)/i;
 
 export const Cards = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isEdit, setIsEdit] = React.useState(true);
+  const [title, setTitle] = React.useState("Shrimp and Chorizo Paella");
+  const [description, setDescription] = React.useState(
+    "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
+  );
+  const [image, setImage] = React.useState(null);
+  const inputFile = useRef(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      alert("Image mime type is not valid");
+      return;
+    }
+    setImage(file);
+  };
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,33 +56,60 @@ export const Cards = () => {
             </Avatar>
           }
           action={
-            <IconButton
-              id="basic-button"
-              aria-label="settings"
-              onClick={handleClick}
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-            >
-              <MoreVertIcon />
-            </IconButton>
+            isEdit ? (
+              <IconButton
+                id="basic-button"
+                aria-label="settings"
+                onClick={handleClick}
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            ) : (
+              <IconButton onClick={() => setIsEdit(true)} color="success">
+                <CheckBoxIcon />
+              </IconButton>
+            )
           }
-          title="Shrimp and Chorizo Paella"
+          title={
+            <input
+              type="text"
+              value={title}
+              readOnly={isEdit}
+              onChange={(evento) => setTitle(evento.target.value)}
+            />
+          }
           subheader="September 14, 2016"
         />
-        <CardMedia
-          component="img"
-          height="194"
-          image="../../../public/post1.jpg"
-          sx={{ objectFit: "contain" }}
-          alt="Paella dish"
-        />
+        {isEdit ? (
+          <CardMedia
+            component="img"
+            height="194"
+            image="../../../public/post1.jpg"
+            sx={{ objectFit: "contain" }}
+            alt="Paella dish"
+          />
+        ) : (
+          <div className="imagen">
+            <UploadImageButton
+              inputFile={inputFile}
+              handleImageUpload={handleImageUpload}
+              imagen
+              url={"../../../public/post1.jpg"}
+            />
+          </div>
+        )}
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
-          </Typography>
+          <textarea
+            type="text"
+            value={description}
+            readOnly={isEdit}
+            onChange={(evento) => setDescription(evento.target.value)}
+            className="text-area"
+            rows={4}
+          />
         </CardContent>
       </Card>
       <Menu
@@ -74,7 +122,11 @@ export const Cards = () => {
         }}
       >
         <MenuItem onClick={handleClose}>
-          <Button startIcon={<EditIcon />} color="info">
+          <Button
+            startIcon={<EditIcon />}
+            color="info"
+            onClick={() => setIsEdit(false)}
+          >
             Editar
           </Button>
         </MenuItem>
