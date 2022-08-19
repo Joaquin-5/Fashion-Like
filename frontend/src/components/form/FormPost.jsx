@@ -1,43 +1,54 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-
-import "../index.css";
+import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
 
-const opciones = [
-  {
-    value: "hombre",
-    label: "Hombre",
-  },
-  {
-    value: "mujer",
-    label: "Mujer",
-  },
-  {
-    value: "otros",
-    label: "Otros",
-  },
-];
+const imageMimeType = /image\/(jpg|jpeg)/i;
 
 export const FormPost = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [gender, setGender] = useState("");
-  const [image, setImage] = useState("");
-  const [season, setSeason] = useState("");
+  const [image, setImage] = useState(null);
   const inputFile = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ gender, title, description, season, image });
+    console.log({ title, description, image });
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      alert("Image mime type is not valid");
+      return;
+    }
+    setImage(file);
+  };
+
+  useEffect(() => {
+    let fileReader,
+      isCancel = false;
+    if (image) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setSelectedFile(result);
+        }
+      };
+      fileReader.readAsDataURL(image);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [image]);
+
   return (
-    <div>
-      <h1>Cree un posteo</h1>
+    <>
       <form onSubmit={handleSubmit} className="campos">
         <TextField
           id="filled-basic"
@@ -54,7 +65,29 @@ export const FormPost = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <UploadImageButton inputFile={inputFile} setImage={setImage} />
+        {image && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <h2 style={{ marginBottom: "0" }}>{image.name}</h2>
+            <div style={{ height: "100px", width: "100px" }}>
+              <img
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                src={selectedFile}
+                alt="preview"
+              />
+            </div>
+          </div>
+        )}
+
+        <UploadImageButton
+          inputFile={inputFile}
+          handleImageUpload={handleImageUpload}
+        />
         {/* <TextField
           id="filled-basic"
           label="Género"
@@ -78,10 +111,10 @@ export const FormPost = () => {
           onChange={(e) => setSeason(e.target.value)}
           helperText="Elija la temporada"
         /> */}
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" color="success">
           Enviar
         </Button>
       </form>
-    </div>
+    </>
   );
 };
