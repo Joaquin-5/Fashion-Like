@@ -8,8 +8,7 @@ const clothes = new schema({
 
     title: String,
     description: String,
-    image: String,
-    //id: Number
+    //image: String,
 
 })
 
@@ -25,7 +24,7 @@ router.post('/add',(req, res)=>{
 
         title: req.body.title,
         description: req.body.description,
-        image: req.body.image
+        //image: req.body.image
     })
 
     newC.save(function(err){

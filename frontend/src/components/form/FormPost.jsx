@@ -15,7 +15,7 @@ export const FormPost = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ title, description, image });
+    console.log({ title, description });
   };
 
   const handleImageUpload = (e) => {
@@ -53,7 +53,7 @@ export const FormPost = () => {
     var clothes = {
       title: title,
       description: description,
-      image:image
+      //image:image
     }
     console.log(clothes);
     axios.post('/api/clothes/add', clothes)
@@ -84,6 +84,7 @@ export const FormPost = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        {/*
         {image && (
           <div
             style={{
@@ -101,7 +102,7 @@ export const FormPost = () => {
               />
             </div>
           </div>
-        )}
+          )}*/}
 
         <UploadImageButton
           inputFile={inputFile}
