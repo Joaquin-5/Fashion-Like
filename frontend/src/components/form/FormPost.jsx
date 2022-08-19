@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
+import {axios} from 'axios';
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
@@ -47,6 +48,22 @@ export const FormPost = () => {
     };
   }, [image]);
 
+  function add(){
+    //console.log('hey')
+    var clothes = {
+      title: title,
+      description: description,
+      image:image
+    }
+    console.log(clothes);
+    axios.post('/api/clothes/add', clothes)
+    .then(res =>{
+      alert(res.data)
+    })
+    .then(err => {console.log(err)})
+
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit} className="campos">
@@ -54,6 +71,7 @@ export const FormPost = () => {
           id="filled-basic"
           label="Título"
           variant="outlined"
+          htmlFor='title'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -62,6 +80,7 @@ export const FormPost = () => {
           id="filled-basic"
           label="Descripción"
           variant="outlined"
+          htmlFor='description'
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -111,7 +130,7 @@ export const FormPost = () => {
           onChange={(e) => setSeason(e.target.value)}
           helperText="Elija la temporada"
         /> */}
-        <Button type="submit" variant="contained" color="success">
+        <Button type="submit" variant="contained" color="success" onClick={add}>
           Enviar
         </Button>
       </form>

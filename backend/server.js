@@ -6,6 +6,13 @@ const dbfile=require('./connection')
 
 const routesC = require('./ruoutes/clothes');
 
+//body parse
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}))
+
+
 
 app.use('/api/clothes',routesC);
 
