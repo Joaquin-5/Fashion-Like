@@ -1,21 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import "./card.style.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { UploadImageButton } from "../UploadImageButton";
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
@@ -50,11 +48,6 @@ export const Cards = () => {
     <>
       <Card sx={{ maxWidth: 345 }}>
         <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
-            </Avatar>
-          }
           action={
             isEdit ? (
               <IconButton
@@ -79,9 +72,17 @@ export const Cards = () => {
               value={title}
               readOnly={isEdit}
               onChange={(evento) => setTitle(evento.target.value)}
+              className={isEdit ? "" : "edit-style"}
             />
           }
-          subheader="September 14, 2016"
+          subheader={
+            <Typography
+              fontSize={".8rem"}
+              sx={{ opacity: 0.8, marginLeft: "5px" }}
+            >
+              September 14, 2016
+            </Typography>
+          }
         />
         {isEdit ? (
           <CardMedia
@@ -99,6 +100,9 @@ export const Cards = () => {
               imagen
               url={"../../../public/post1.jpg"}
             />
+            <div className="icono">
+              <FileUploadIcon fontSize="large" />
+            </div>
           </div>
         )}
         <CardContent>
@@ -107,7 +111,7 @@ export const Cards = () => {
             value={description}
             readOnly={isEdit}
             onChange={(evento) => setDescription(evento.target.value)}
-            className="text-area"
+            className={`text-area ${isEdit ? "" : "edit-style"}`}
             rows={4}
           />
         </CardContent>

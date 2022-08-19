@@ -1,7 +1,18 @@
+input {
+    border: none;
+    outline: none;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.1rem;
+}
+
 .text-area {
     width: 100%;
     max-width: 100%;
     resize: none;
+    border: none;
+    outline: none;
+    font-family: "Roboto", sans-serif;
+    line-height: 1.4;
 }
 
 .imagen {
@@ -13,12 +24,38 @@
     cursor: pointer;
 }
 
+.imagen:hover div img {     
+    opacity: .4; 
+}
+
 .imagen:hover::after {
     position: absolute;
     content: 'Subir nueva imagen';
+    color: #ffffff;
+    text-align: center;
     top: 50%;
     left: 0;
     right: 0;
+    margin: 0 auto;
+}
+
+.edit-style {
+    all: revert;
+    width: 100%;
+    max-width: 100%;
+}
+
+.icono {
+    display: none;
+    color: #ffffff;
+}
+
+.imagen:hover .icono {
+    display: block;
+    position: absolute;
     text-align: center;
+    top: 30%;
+    left: 0;
+    right: 0;
     margin: 0 auto;
 }
