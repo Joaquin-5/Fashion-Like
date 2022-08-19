@@ -7,3 +7,5 @@ objectbd.on('connected',()=>{console.log('Done!')});
 objectbd.on('error',()=>{console.log('Wrong!')});
 
 module.exports =mongoose
+
+//coments
