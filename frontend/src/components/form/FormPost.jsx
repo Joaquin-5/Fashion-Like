@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
-import {axios} from 'axios';
+import axios from 'axios';
+
+
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
@@ -48,12 +50,14 @@ export const FormPost = () => {
     };
   }, [image]);
 
+  axios.defaults.baseURL = `http://localhost:5000`
+
   function add(){
     //console.log('hey')
     var clothes = {
       title: title,
       description: description,
-      //image:image
+      image:image
     }
     console.log(clothes);
     axios.post('/api/clothes/add', clothes)
@@ -84,7 +88,7 @@ export const FormPost = () => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        {/*
+        
         {image && (
           <div
             style={{
@@ -102,7 +106,7 @@ export const FormPost = () => {
               />
             </div>
           </div>
-          )}*/}
+          )}
 
         <UploadImageButton
           inputFile={inputFile}

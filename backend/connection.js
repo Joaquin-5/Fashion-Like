@@ -8,4 +8,3 @@ objectbd.on('error',()=>{console.log('Wrong!')});
 
 module.exports =mongoose
 
-//coments
