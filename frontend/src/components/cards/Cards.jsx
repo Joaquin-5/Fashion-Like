@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./card.style.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -14,6 +14,8 @@ import { Button, Typography } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { UploadImageButton } from "../UploadImageButton";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
+import Swal from 'sweetalert2';
+import { FormPost } from "../form/FormPost";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
@@ -25,6 +27,8 @@ export const Cards = () => {
     "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
   );
   const [image, setImage] = React.useState(null);
+  const [hasError, setHasError] = useState(false);
+  const [mensajeError, setMensajeError] = useState("");
   const inputFile = useRef(null);
 
   const handleImageUpload = (e) => {
@@ -36,6 +40,16 @@ export const Cards = () => {
     setImage(file);
   };
 
+  const handleSubmit = () => {
+    if (title.length < 2) {
+      setHasError(true);
+      setMensajeError("El título debe tener como mínimo dos caracteres");
+      return;
+    }
+    setIsEdit(true);
+    setHasError(false);
+  };
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,10 +58,30 @@ export const Cards = () => {
     setAnchorEl(null);
   };
 
+  const handleDelete = () => {
+    setAnchorEl(null);
+    Swal.fire({
+      title: "¿Estás seguro que querés eliminar esta publicación?",
+      text: "No se va a poder recuperar esta publicación!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, eliminar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Eliminado!", "La publicación ha sido eliminada.", "success");
+      }
+    });
+  }
+
   return (
     <>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardHeader
+      <Card sx={{ maxWidth: 345, padding: isEdit ? "0" : "1rem"}}>
+      {isEdit ? (
+      <>
+      <CardHeader
           action={
             isEdit ? (
               <IconButton
@@ -61,19 +95,24 @@ export const Cards = () => {
                 <MoreVertIcon />
               </IconButton>
             ) : (
-              <IconButton onClick={() => setIsEdit(true)} color="success">
+              <IconButton onClick={handleSubmit} color="success">
                 <CheckBoxIcon />
               </IconButton>
             )
           }
           title={
-            <input
-              type="text"
-              value={title}
-              readOnly={isEdit}
-              onChange={(evento) => setTitle(evento.target.value)}
-              className={isEdit ? "" : "edit-style"}
-            />
+            <>
+              <input
+                type="text"
+                value={title}
+                readOnly={isEdit}
+                onChange={(evento) => setTitle(evento.target.value)}
+                className={isEdit ? "" : "edit-style"}
+              />
+              {hasError && (
+                <span className="mensaje-error">{mensajeError}</span>
+              )}
+            </>
           }
           subheader={
             <Typography
@@ -84,27 +123,14 @@ export const Cards = () => {
             </Typography>
           }
         />
-        {isEdit ? (
+        
           <CardMedia
             component="img"
             height="194"
             image="../../../public/post1.jpg"
             sx={{ objectFit: "contain" }}
             alt="Paella dish"
-          />
-        ) : (
-          <div className="imagen">
-            <UploadImageButton
-              inputFile={inputFile}
-              handleImageUpload={handleImageUpload}
-              imagen
-              url={"../../../public/post1.jpg"}
-            />
-            <div className="icono">
-              <FileUploadIcon fontSize="large" />
-            </div>
-          </div>
-        )}
+          /> 
         <CardContent>
           <textarea
             type="text"
@@ -114,7 +140,7 @@ export const Cards = () => {
             className={`text-area ${isEdit ? "" : "edit-style"}`}
             rows={4}
           />
-        </CardContent>
+        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"../../../public/post1.jpg"}/>} 
       </Card>
       <Menu
         id="basic-menu"
@@ -134,7 +160,9 @@ export const Cards = () => {
             Editar
           </Button>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={handleDelete}
+        >
           <Button startIcon={<DeleteIcon />} color="error">
             Eliminar
           </Button>
@@ -143,3 +171,18 @@ export const Cards = () => {
     </>
   );
 };
+
+/* {isEdit ? (
+  /*)  : ( 
+    <div className="imagen" onClick={() => inputFile.current.click()}>
+      <UploadImageButton
+        inputFile={inputFile}
+        handleImageUpload={handleImageUpload}
+        imagen
+        url={"../../../public/post1.jpg"}
+      />
+      <div className="icono">
+        <FileUploadIcon fontSize="large" />
+      </div>
+    </div>
+  )} */

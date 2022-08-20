@@ -5,12 +5,16 @@ import { UploadImageButton } from "../UploadImageButton";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
-export const FormPost = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+export const FormPost = ({
+  titleProp = "",
+  descriptionProp = "",
+  imageProp,
+}) => {
+  const [title, setTitle] = useState(titleProp);
+  const [description, setDescription] = useState(descriptionProp);
+  const [image, setImage] = useState(imageProp || null);
   const inputFile = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(imageProp || null);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,24 +31,27 @@ export const FormPost = () => {
   };
 
   useEffect(() => {
-    let fileReader,
-      isCancel = false;
-    if (image) {
-      fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const { result } = e.target;
-        if (result && !isCancel) {
-          setSelectedFile(result);
+    if (!imageProp) {
+      setSelectedFile(null);
+      let fileReader,
+        isCancel = false;
+      if (image) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const { result } = e.target;
+          if (result && !isCancel) {
+            setSelectedFile(result);
+          }
+        };
+        fileReader.readAsDataURL(image);
+      }
+      return () => {
+        isCancel = true;
+        if (fileReader && fileReader.readyState === 1) {
+          fileReader.abort();
         }
       };
-      fileReader.readAsDataURL(image);
     }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
-      }
-    };
   }, [image]);
 
   return (
@@ -57,9 +64,17 @@ export const FormPost = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          error={title.length < 2 ? true : false}
+          helperText={
+            title.length < 2
+              ? "El título debe tener como mínimo dos caracteres"
+              : null
+          }
         />
         <TextField
-          id="filled-basic"
+          id="standard-multiline-flexible"
+          multiline
+          maxRows={4}
           label="Descripción"
           variant="outlined"
           value={description}

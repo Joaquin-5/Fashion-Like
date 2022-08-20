@@ -24,7 +24,6 @@ export const UploadImageButton = ({
             height="194"
             sx={{ objectFit: "contain", zIndex: 0}}
             alt="Paella dish"
-            onClick={() => inputFile.current.click()}
           />
         </div>
       ) : (

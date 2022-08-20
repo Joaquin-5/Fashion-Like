@@ -5,6 +5,11 @@ input {
     font-size: 1.1rem;
 }
 
+.mensaje-error {
+    font-size: .8rem;
+    color: #ff0000;
+}
+
 .text-area {
     width: 100%;
     max-width: 100%;
@@ -12,6 +17,7 @@ input {
     border: none;
     outline: none;
     font-family: "Roboto", sans-serif;
+    font-size: .9rem;
     line-height: 1.4;
 }
 
@@ -43,6 +49,8 @@ input {
     all: revert;
     width: 100%;
     max-width: 100%;
+    padding: .5rem .1rem;
+    resize: none;
 }
 
 .icono {
