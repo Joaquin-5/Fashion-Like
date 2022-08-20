@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
+import { useState } from "react";
+import axios from "axios";
 
 export const Cards = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -24,6 +26,19 @@ export const Cards = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  /*
+  axios.defaults.baseURL = `http://localhost:5000`
+  const [dataclothes, setclothes]=useState([])
+  useEffect(() => {
+    axios.get('api/clothes/get').then(res =>{
+      console.log(res)  
+    }).catch(err =>{
+      console.log(err)
+    })
+  }, [])
+  */
+
 
   return (
     <>

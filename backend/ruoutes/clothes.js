@@ -36,3 +36,18 @@ router.post('/add',(req, res)=>{
     })
 })
 
+
+//get
+
+router.get('/get',(req, res)=>{
+    ClothesModel.find({},function(docs, err){
+        if(!err){
+            res.send(docs)
+        }else{
+            res.send(err)
+        }
+    })
+})
+
+
+
