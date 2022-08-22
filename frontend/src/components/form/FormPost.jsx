@@ -33,31 +33,8 @@ export const FormPost = ({
       return;
     }
     setImage(file);
+    setSelectedFile(URL.createObjectURL(file))
   };
-
-  useEffect(() => {
-    if (!imageProp) {
-      setSelectedFile(null);
-      let fileReader,
-        isCancel = false;
-      if (image) {
-        fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          const { result } = e.target;
-          if (result && !isCancel) {
-            setSelectedFile(result);
-          }
-        };
-        fileReader.readAsDataURL(image);
-      }
-      return () => {
-        isCancel = true;
-        if (fileReader && fileReader.readyState === 1) {
-          fileReader.abort();
-        }
-      };
-    }
-  }, [image]);
 
   return (
     <>

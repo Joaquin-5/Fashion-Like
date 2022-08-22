@@ -113,13 +113,13 @@ export const Cards = () => {
           <CardMedia
             component="img"
             height="194"
-            image="../../../public/post1.jpg"
+            image="/post1.jpg"
             sx={{ objectFit: "contain" }}
             alt="Paella dish"
           /> 
         <CardContent>
           <Typography variant="body2" color="InfoText">{description}</Typography>
-        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"../../../public/post1.jpg"} onSubmit={handleSubmit}/>} 
+        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"/post1.jpg"} onSubmit={handleSubmit}/>} 
       </Card>
       <Menu
         id="basic-menu"
