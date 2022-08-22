@@ -18,10 +18,10 @@ import { FormPost } from "../form/FormPost";
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
 export const Cards = () => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [isEdit, setIsEdit] = React.useState(true);
-  const [title, setTitle] = React.useState("Shrimp and Chorizo Paella");
-  const [description, setDescription] = React.useState(
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isEdit, setIsEdit] = useState(true);
+  const [title, setTitle] = useState("Shrimp and Chorizo Paella");
+  const [description, setDescription] = useState(
     "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
   );
   const [image, setImage] = React.useState(null);
