@@ -17,37 +17,12 @@ import { FormPost } from "../form/FormPost";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
-export const Cards = () => {
+export const Cards = ({tileProp, descriptionProp, imageProp, dateProp}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
-  const [title, setTitle] = useState("Shrimp and Chorizo Paella");
-  const [description, setDescription] = useState(
-    "This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-  );
-  const [image, setImage] = React.useState(null);
-  const [hasError, setHasError] = useState(false);
-  const [mensajeError, setMensajeError] = useState("");
-  const inputFile = useRef(null);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      alert("Image mime type is not valid");
-      return;
-    }
-    setImage(file);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (title.length < 2) {
-      setHasError(true);
-      setMensajeError("El título debe tener como mínimo dos caracteres");
-      return;
-    }
-    setIsEdit(true);
-    setHasError(false);
-  };
+  const [title, setTitle] = useState(tileProp);
+  const [description, setDescription] = useState(descriptionProp);
+  const [image, setImage] = useState(imageProp);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -105,7 +80,7 @@ export const Cards = () => {
               fontSize={".8rem"}
               sx={{ opacity: 0.8  }}
             >
-              September 14, 2016
+              {dateProp ? new Date(dateProp).toDateString() : 'September 14, 2016'}
             </Typography>
           }
         />
@@ -113,13 +88,13 @@ export const Cards = () => {
           <CardMedia
             component="img"
             height="194"
-            image="/post1.jpg"
+            image={image}
             sx={{ objectFit: "contain" }}
             alt="Paella dish"
           /> 
         <CardContent>
           <Typography variant="body2" color="InfoText">{description}</Typography>
-        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"/post1.jpg"} onSubmit={handleSubmit}/>} 
+        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={image} setIsEdit={setIsEdit}/>} 
       </Card>
       <Menu
         id="basic-menu"
