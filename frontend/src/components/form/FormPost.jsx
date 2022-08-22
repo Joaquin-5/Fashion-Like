@@ -17,11 +17,6 @@ export const FormPost = ({
   const [selectedFile, setSelectedFile] = useState(imageProp || null);
   const [error, setError] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log({ title, description, image });
-  };
-
   const validacion = () => {
     setError(false);
     if (title.length < 2) {

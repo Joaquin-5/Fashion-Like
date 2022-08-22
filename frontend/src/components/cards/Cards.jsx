@@ -12,8 +12,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Typography } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { UploadImageButton } from "../UploadImageButton";
-import FileUploadIcon from "@mui/icons-material/FileUpload";
 import Swal from 'sweetalert2';
 import { FormPost } from "../form/FormPost";
 
@@ -101,24 +99,11 @@ export const Cards = () => {
               </IconButton>
             )
           }
-          title={
-            <>
-              <input
-                type="text"
-                value={title}
-                readOnly={isEdit}
-                onChange={(evento) => setTitle(evento.target.value)}
-                className={isEdit ? "" : "edit-style"}
-              />
-              {hasError && (
-                <span className="mensaje-error">{mensajeError}</span>
-              )}
-            </>
-          }
+          title={<Typography fontWeight="700" fontSize={"1.2rem"}>{title}</Typography>}
           subheader={
             <Typography
               fontSize={".8rem"}
-              sx={{ opacity: 0.8, marginLeft: "5px" }}
+              sx={{ opacity: 0.8  }}
             >
               September 14, 2016
             </Typography>
@@ -133,14 +118,7 @@ export const Cards = () => {
             alt="Paella dish"
           /> 
         <CardContent>
-          <textarea
-            type="text"
-            value={description}
-            readOnly={isEdit}
-            onChange={(evento) => setDescription(evento.target.value)}
-            className={`text-area ${isEdit ? "" : "edit-style"}`}
-            rows={4}
-          />
+          <Typography variant="body2" color="InfoText">{description}</Typography>
         </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"../../../public/post1.jpg"} onSubmit={handleSubmit}/>} 
       </Card>
       <Menu
@@ -172,18 +150,3 @@ export const Cards = () => {
     </>
   );
 };
-
-/* {isEdit ? (
-  /*)  : ( 
-    <div className="imagen" onClick={() => inputFile.current.click()}>
-      <UploadImageButton
-        inputFile={inputFile}
-        handleImageUpload={handleImageUpload}
-        imagen
-        url={"../../../public/post1.jpg"}
-      />
-      <div className="icono">
-        <FileUploadIcon fontSize="large" />
-      </div>
-    </div>
-  )} */
