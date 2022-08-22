@@ -40,7 +40,8 @@ export const Cards = () => {
     setImage(file);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (title.length < 2) {
       setHasError(true);
       setMensajeError("El título debe tener como mínimo dos caracteres");
@@ -140,7 +141,7 @@ export const Cards = () => {
             className={`text-area ${isEdit ? "" : "edit-style"}`}
             rows={4}
           />
-        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"../../../public/post1.jpg"}/>} 
+        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={"../../../public/post1.jpg"} onSubmit={handleSubmit}/>} 
       </Card>
       <Menu
         id="basic-menu"

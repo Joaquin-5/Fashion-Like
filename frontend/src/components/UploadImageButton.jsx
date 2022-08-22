@@ -39,7 +39,7 @@ export const UploadImageButton = ({
             hidden
             accept="image/jpg, image/jpeg"
           />
-          Upload File
+          Subir imagen
         </Button>
       )}
     </>
