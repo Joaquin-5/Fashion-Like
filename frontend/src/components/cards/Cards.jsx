@@ -63,7 +63,7 @@ export const Cards = ({
               "Eliminado!",
               "La publicación ha sido eliminada.",
               "success"
-            )
+            ).then(() => location.reload())
           )
           .catch((error) =>
             Swal.fire("Error", error.response.data.msg, "error")
