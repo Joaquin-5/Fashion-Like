@@ -15,8 +15,11 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Swal from "sweetalert2";
 import { FormPost } from "../form/FormPost";
 import { fashionApi } from "../../api/fashionApi";
+import dayjs from 'dayjs';
+import { es } from "dayjs/locale/es";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
+dayjs.locale('es')
 
 export const Cards = ({
   tileProp,
@@ -99,9 +102,9 @@ export const Cards = ({
                 </Typography>
               }
               subheader={
-                <Typography fontSize={".8rem"} sx={{ opacity: 0.8 }}>
+                <Typography fontSize={".8rem"} sx={{ opacity: 0.8 }} textTransform="capitalize">
                   {dateProp
-                    ? new Date(dateProp).toDateString()
+                    ? dayjs(dateProp).format('dddd MM/YYYY')
                     : "September 14, 2016"}
                 </Typography>
               }
