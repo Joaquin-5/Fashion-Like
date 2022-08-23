@@ -18,7 +18,13 @@ import { fashionApi } from "../../api/fashionApi";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
-export const Cards = ({ tileProp, descriptionProp, imageProp, dateProp }) => {
+export const Cards = ({
+  tileProp,
+  descriptionProp,
+  imageProp,
+  dateProp,
+  idProp,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
   const [title, setTitle] = useState(tileProp);
@@ -47,15 +53,25 @@ export const Cards = ({ tileProp, descriptionProp, imageProp, dateProp }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         console.log(id);
-        fashionApi.delete("/clothes/" + id).then(res => Swal.fire("Eliminado!", "La publicación ha sido eliminada.", "success"))
-        .catch(error => Swal.fire("Error", error.msg, "error"))
+        fashionApi
+          .delete("/clothes/" + id)
+          .then((res) =>
+            Swal.fire(
+              "Eliminado!",
+              "La publicación ha sido eliminada.",
+              "success"
+            )
+          )
+          .catch((error) =>
+            Swal.fire("Error", error.response.data.msg, "error")
+          );
       }
     });
   };
 
   return (
     <>
-      <Card sx={{ maxWidth: 345, padding: isEdit ? "0" : "1rem" }}>
+      <Card sx={{ width: "100%", padding: isEdit ? "0" : "1rem" }}>
         {isEdit ? (
           <>
             <CardHeader
@@ -104,8 +120,15 @@ export const Cards = ({ tileProp, descriptionProp, imageProp, dateProp }) => {
             </CardContent>{" "}
           </>
         ) : (
-          <div style={{position: "relative", paddingTop: "3.5rem"}}>
-            <button onClick={() => setIsEdit(true)} className="cerrar-edicion" color="error" variant="outlined">X</button>
+          <div style={{ position: "relative", paddingTop: "3.5rem" }}>
+            <button
+              onClick={() => setIsEdit(true)}
+              className="cerrar-edicion"
+              color="error"
+              variant="outlined"
+            >
+              X
+            </button>
             <FormPost
               titleProp={title}
               descriptionProp={description}
@@ -133,7 +156,7 @@ export const Cards = ({ tileProp, descriptionProp, imageProp, dateProp }) => {
             Editar
           </Button>
         </MenuItem>
-        <MenuItem onClick={() => handleDelete("h3iuh3i")}>
+        <MenuItem onClick={() => handleDelete(idProp)}>
           <Button startIcon={<DeleteIcon />} color="error">
             Eliminar
           </Button>

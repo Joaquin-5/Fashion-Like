@@ -15,18 +15,19 @@ export const Home = () => {
   return (
     <div className="container">
       <NavBar />
-      <Grid container spacing={2}>
+      <div className="cards-container">
         {clothes.map((c) => (
-          <Grid key={c._id} item xs={6} md={3}>
+          <Grid key={c._id} item xs={6} md={3} justifyContent="center">
             <Cards
               tileProp={c.title}
               descriptionProp={c.description}
               imageProp={c.image}
               dateProp={c.createdAt}
+              idProp={c._id}
             />
           </Grid>
         ))}
-      </Grid>
+      </div>
     </div>
   );
 };
