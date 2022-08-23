@@ -54,7 +54,7 @@ router.post("/add", async (req, res) => {
   }
 });
 
-//get
+//gett
 
 router.get("/get", (req, res) => {
   ClothesModel.find({}, function (docs, err) {
