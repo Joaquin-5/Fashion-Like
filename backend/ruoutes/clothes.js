@@ -37,7 +37,7 @@ router.post('/add',(req, res)=>{
 })
 
 
-//gett
+//get
 
 router.get('/get',(req, res)=>{
     ClothesModel.find({},function(docs, err){
