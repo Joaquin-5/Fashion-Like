@@ -12,11 +12,15 @@ export const Home = () => {
     fashionApi.get("/clothes/get").then((res) => setClothes(res.data));
   }, []);
 
+  const date = [...clothes].sort((a, b) =>
+    a.createdAt > b.createdAt ? -1 : 1
+  );
+
   return (
     <div className="container">
       <NavBar />
       <div className="cards-container">
-        {clothes.map((c) => (
+        {date.map((c) => (
           <Grid key={c._id} item xs={6} md={3} justifyContent="center">
             <Cards
               tileProp={c.title}
