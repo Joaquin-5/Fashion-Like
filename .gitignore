@@ -1496,3 +1496,4 @@ backend/node_modules/wrappy/LICENSE
 backend/node_modules/wrappy/package.json
 backend/node_modules/wrappy/README.md
 backend/node_modules/wrappy/wrappy.js
+backend/env.template
