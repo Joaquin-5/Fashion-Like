@@ -14,10 +14,10 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const Cards = () => {
+export const Cards = ({clothes}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,9 +27,12 @@ export const Cards = () => {
     setAnchorEl(null);
   };
 
-  /*
+  
   axios.defaults.baseURL = `http://localhost:5000`
+
+
   const [dataclothes, setclothes]=useState([])
+
   useEffect(() => {
     axios.get('api/clothes/get').then(res =>{
       console.log(res)  
@@ -37,12 +40,21 @@ export const Cards = () => {
       console.log(err)
     })
   }, [])
-  */
+
+  //map
+  const list=dataclothes.map(clothes =>{
+    return(
+      <Cards clothes={clothes}/>
+    )
+  })
+  
 
 
   return (
+   
     <>
       <Card sx={{ maxWidth: 345 }}>
+      {list}
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
