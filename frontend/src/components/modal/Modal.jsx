@@ -18,6 +18,7 @@ export const ModalComponent = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   return (
     <>
       <Button onClick={handleOpen}>Open modal</Button>
@@ -33,7 +34,7 @@ export const ModalComponent = () => {
           </Typography>
 
           <Divider sx={{ mt: 1, mb: 3 }} />
-          <FormPost />
+          <FormPost editProp handleModalProp={handleClose}/>
         </Box>
       </Modal>
     </>

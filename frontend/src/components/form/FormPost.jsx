@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
+import { fashionApi } from "../../api/fashionApi";
+import Swal from "sweetalert2";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
@@ -8,7 +10,9 @@ export const FormPost = ({
   titleProp = "",
   descriptionProp = "",
   imageProp,
-  onSubmit
+  editProp,
+  setIsEdit,
+  handleModalProp
 }) => {
   const [title, setTitle] = useState(titleProp);
   const [description, setDescription] = useState(descriptionProp);
@@ -24,7 +28,7 @@ export const FormPost = ({
       return true;
     }
     return false;
-  }
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -33,12 +37,42 @@ export const FormPost = ({
       return;
     }
     setImage(file);
-    setSelectedFile(URL.createObjectURL(file))
+    setSelectedFile(URL.createObjectURL(file));
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!editProp) {
+      if (title.length < 2) {
+        return;
+      }
+      setIsEdit(true);
+      // Editar 
+      console.log({title, description, image});
+      return;
+    }
+    // Crear
+    const res = await fashionApi.post('/clothes/add', {title, description, file: image}, {headers: {'Content-Type':'multipart/form-data'}});
+    console.log(res);
+    if (res.data.ok) {
+      handleModalProp();
+      Swal.fire({
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      setTimeout(() => {
+        location.reload()
+      }, 1500)
+    }
+  };
+
+
 
   return (
     <>
-      <form onSubmit={onSubmit} className="campos">
+      <form onSubmit={handleSubmit} className="campos">
         <TextField
           id="filled-basic"
           label="Título"
@@ -49,9 +83,7 @@ export const FormPost = ({
           onBlur={validacion}
           error={error}
           helperText={
-            error
-              ? "El título debe tener como mínimo dos caracteres"
-              : null
+            error ? "El título debe tener como mínimo dos caracteres" : null
           }
         />
         <TextField
@@ -109,7 +141,12 @@ export const FormPost = ({
           onChange={(e) => setSeason(e.target.value)}
           helperText="Elija la temporada"
         /> */}
-        <Button type="submit" variant="contained" color="success" disabled={title.length < 2 ? true : false}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="success"
+          disabled={title.length < 2 ? true : false}
+        >
           Enviar
         </Button>
       </form>
