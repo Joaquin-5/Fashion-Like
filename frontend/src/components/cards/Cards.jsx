@@ -12,12 +12,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Typography } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { FormPost } from "../form/FormPost";
+import { fashionApi } from "../../api/fashionApi";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
-export const Cards = ({tileProp, descriptionProp, imageProp, dateProp}) => {
+export const Cards = ({ tileProp, descriptionProp, imageProp, dateProp }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
   const [title, setTitle] = useState(tileProp);
@@ -32,7 +33,7 @@ export const Cards = ({tileProp, descriptionProp, imageProp, dateProp}) => {
     setAnchorEl(null);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     setAnchorEl(null);
     Swal.fire({
       title: "¿Estás seguro que querés eliminar esta publicación?",
@@ -45,56 +46,74 @@ export const Cards = ({tileProp, descriptionProp, imageProp, dateProp}) => {
       confirmButtonText: "Si, eliminar!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Eliminado!", "La publicación ha sido eliminada.", "success");
+        console.log(id);
+        fashionApi.delete("/clothes/" + id).then(res => Swal.fire("Eliminado!", "La publicación ha sido eliminada.", "success"))
+        .catch(error => Swal.fire("Error", error.msg, "error"))
       }
     });
-  }
+  };
 
   return (
     <>
-      <Card sx={{ maxWidth: 345, padding: isEdit ? "0" : "1rem"}}>
-      {isEdit ? (
-      <>
-      <CardHeader
-          action={
-            isEdit ? (
-              <IconButton
-                id="basic-button"
-                aria-label="settings"
-                onClick={handleClick}
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-              >
-                <MoreVertIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={handleSubmit} color="success">
-                <CheckBoxIcon />
-              </IconButton>
-            )
-          }
-          title={<Typography fontWeight="700" fontSize={"1.2rem"}>{title}</Typography>}
-          subheader={
-            <Typography
-              fontSize={".8rem"}
-              sx={{ opacity: 0.8  }}
-            >
-              {dateProp ? new Date(dateProp).toDateString() : 'September 14, 2016'}
-            </Typography>
-          }
-        />
-        
-          <CardMedia
-            component="img"
-            height="194"
-            image={image}
-            sx={{ objectFit: "contain" }}
-            alt="Paella dish"
-          /> 
-        <CardContent>
-          <Typography variant="body2" color="InfoText">{description}</Typography>
-        </CardContent> </>) : <FormPost titleProp={title} descriptionProp={description} imageProp={image} setIsEdit={setIsEdit}/>} 
+      <Card sx={{ maxWidth: 345, padding: isEdit ? "0" : "1rem" }}>
+        {isEdit ? (
+          <>
+            <CardHeader
+              action={
+                isEdit ? (
+                  <IconButton
+                    id="basic-button"
+                    aria-label="settings"
+                    onClick={handleClick}
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={handleSubmit} color="success">
+                    <CheckBoxIcon />
+                  </IconButton>
+                )
+              }
+              title={
+                <Typography fontWeight="700" fontSize={"1.2rem"}>
+                  {title}
+                </Typography>
+              }
+              subheader={
+                <Typography fontSize={".8rem"} sx={{ opacity: 0.8 }}>
+                  {dateProp
+                    ? new Date(dateProp).toDateString()
+                    : "September 14, 2016"}
+                </Typography>
+              }
+            />
+            <CardMedia
+              component="img"
+              height="194"
+              image={image}
+              sx={{ objectFit: "contain" }}
+              alt="Paella dish"
+            />
+            <CardContent>
+              <Typography variant="body2" color="InfoText">
+                {description}
+              </Typography>
+            </CardContent>{" "}
+          </>
+        ) : (
+          <div style={{position: "relative", paddingTop: "3.5rem"}}>
+            <button onClick={() => setIsEdit(true)} className="cerrar-edicion" color="error" variant="outlined">X</button>
+            <FormPost
+              titleProp={title}
+              descriptionProp={description}
+              imageProp={image}
+              setIsEdit={setIsEdit}
+            />
+          </div>
+        )}
       </Card>
       <Menu
         id="basic-menu"
@@ -114,9 +133,7 @@ export const Cards = ({tileProp, descriptionProp, imageProp, dateProp}) => {
             Editar
           </Button>
         </MenuItem>
-        <MenuItem
-          onClick={handleDelete}
-        >
+        <MenuItem onClick={() => handleDelete("h3iuh3i")}>
           <Button startIcon={<DeleteIcon />} color="error">
             Eliminar
           </Button>
