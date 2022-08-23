@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Typography, Modal, Divider } from "@mui/material";
 import { FormPost } from "../form/FormPost";
+import AddIcon from "@mui/icons-material/Add";
 
 const style = {
   position: "absolute",
@@ -21,7 +22,7 @@ export const ModalComponent = () => {
 
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button startIcon={<AddIcon />} color="inherit" onClick={handleOpen}>Nuevo Posteo</Button>
       <Modal
         open={open}
         onClose={handleClose}

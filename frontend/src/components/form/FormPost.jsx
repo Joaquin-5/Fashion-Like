@@ -23,7 +23,7 @@ export const FormPost = ({
 
   const validacion = () => {
     setError(false);
-    if (title.length < 2) {
+    if (title.length < 2 || title.length > 30) {
       setError(true);
       return true;
     }
@@ -43,7 +43,7 @@ export const FormPost = ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!editProp) {
-      if (title.length < 2) {
+      if (title.length < 2 || title.length > 30) {
         return;
       }
       setIsEdit(true);
@@ -58,7 +58,7 @@ export const FormPost = ({
       handleModalProp();
       Swal.fire({
         icon: 'success',
-        title: 'Your work has been saved',
+        title: 'El posteo se ha hecho correctamente',
         showConfirmButton: false,
         timer: 1500
       })
@@ -67,8 +67,6 @@ export const FormPost = ({
       }, 1500)
     }
   };
-
-
 
   return (
     <>
@@ -83,7 +81,7 @@ export const FormPost = ({
           onBlur={validacion}
           error={error}
           helperText={
-            error ? "El título debe tener como mínimo dos caracteres" : null
+            error ? "El título debe tener como mínimo 2 y un máximo de 30 caracteres" : null
           }
         />
         <TextField
@@ -145,7 +143,7 @@ export const FormPost = ({
           type="submit"
           variant="contained"
           color="success"
-          disabled={title.length < 2 ? true : false}
+          disabled={(title.length < 2 || title.length > 30 || !image) ? true : false}
         >
           Enviar
         </Button>

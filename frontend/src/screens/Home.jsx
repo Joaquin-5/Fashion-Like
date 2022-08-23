@@ -3,7 +3,7 @@ import { fashionApi } from "../api/fashionApi";
 import { Grid } from "@mui/material";
 /* import { FormPost } from '../s/cards/FormPost'; */
 import { Cards } from "../components/cards/Cards";
-import { ModalComponent } from "../components/modal/Modal";
+import NavBar from "../components/navbar/NavBar";
 
 export const Home = () => {
   const [clothes, setClothes] = useState([]);
@@ -13,8 +13,8 @@ export const Home = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="container">
+      <NavBar />
       <Grid container spacing={2}>
         {clothes.map((c) => (
           <Grid key={c._id} item xs={6} md={3}>
@@ -27,7 +27,6 @@ export const Home = () => {
           </Grid>
         ))}
       </Grid>
-      <ModalComponent />
     </div>
   );
 };

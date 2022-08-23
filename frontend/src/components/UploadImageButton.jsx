@@ -17,6 +17,7 @@ export const UploadImageButton = ({
             onChange={handleImageUpload}
             hidden
             accept="image/jpg, image/jpeg"
+            required
           />
           <CardMedia
             image={url}
