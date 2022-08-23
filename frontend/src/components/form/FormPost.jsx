@@ -1,20 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
+import { fashionApi } from "../../api/fashionApi";
+import Swal from "sweetalert2";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 
-export const FormPost = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
+export const FormPost = ({
+  titleProp = "",
+  descriptionProp = "",
+  imageProp,
+  editProp,
+  setIsEdit,
+  handleModalProp
+}) => {
+  const [title, setTitle] = useState(titleProp);
+  const [description, setDescription] = useState(descriptionProp);
+  const [image, setImage] = useState(imageProp || null);
   const inputFile = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(imageProp || null);
+  const [error, setError] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log({ title, description, image });
+  const validacion = () => {
+    setError(false);
+    if (title.length < 2) {
+      setError(true);
+      return true;
+    }
+    return false;
   };
 
   const handleImageUpload = (e) => {
@@ -24,28 +37,38 @@ export const FormPost = () => {
       return;
     }
     setImage(file);
+    setSelectedFile(URL.createObjectURL(file));
   };
 
-  useEffect(() => {
-    let fileReader,
-      isCancel = false;
-    if (image) {
-      fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const { result } = e.target;
-        if (result && !isCancel) {
-          setSelectedFile(result);
-        }
-      };
-      fileReader.readAsDataURL(image);
-    }
-    return () => {
-      isCancel = true;
-      if (fileReader && fileReader.readyState === 1) {
-        fileReader.abort();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!editProp) {
+      if (title.length < 2) {
+        return;
       }
-    };
-  }, [image]);
+      setIsEdit(true);
+      // Editar 
+      console.log({title, description, image});
+      return;
+    }
+    // Crear
+    const res = await fashionApi.post('/clothes/add', {title, description, file: image}, {headers: {'Content-Type':'multipart/form-data'}});
+    console.log(res);
+    if (res.data.ok) {
+      handleModalProp();
+      Swal.fire({
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      setTimeout(() => {
+        location.reload()
+      }, 1500)
+    }
+  };
+
+
 
   return (
     <>
@@ -57,9 +80,16 @@ export const FormPost = () => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          onBlur={validacion}
+          error={error}
+          helperText={
+            error ? "El título debe tener como mínimo dos caracteres" : null
+          }
         />
         <TextField
-          id="filled-basic"
+          id="standard-multiline-flexible"
+          multiline
+          maxRows={4}
           label="Descripción"
           variant="outlined"
           value={description}
@@ -111,7 +141,12 @@ export const FormPost = () => {
           onChange={(e) => setSeason(e.target.value)}
           helperText="Elija la temporada"
         /> */}
-        <Button type="submit" variant="contained" color="success">
+        <Button
+          type="submit"
+          variant="contained"
+          color="success"
+          disabled={title.length < 2 ? true : false}
+        >
           Enviar
         </Button>
       </form>
