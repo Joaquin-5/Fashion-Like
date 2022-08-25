@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
-import { fashionApi } from "../../api/fashionApi";
-import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { startAddNewPost } from "../../store/clothes";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 const specialChars = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
@@ -22,6 +22,7 @@ export const FormPost = ({
   const [selectedFile, setSelectedFile] = useState(imageProp || null);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
 
   const validacion = (title) => {
     if (title.length < 2 || title.length > 30) {
@@ -63,24 +64,8 @@ export const FormPost = ({
       return;
     }
     // Crear
-    const res = await fashionApi.post(
-      "/clothes/add",
-      { title, description, file: image },
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-    console.log(res);
-    if (res.data.ok) {
-      handleModalProp();
-      Swal.fire({
-        icon: "success",
-        title: "El posteo se ha hecho correctamente",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      setTimeout(() => {
-        location.reload();
-      }, 1500);
-    }
+    dispatch(startAddNewPost({ title, description, image }));
+    handleModalProp();
   };
 
   const handleTitleError = (e) => {
@@ -170,7 +155,7 @@ export const FormPost = ({
               : false
           }
         >
-          {editProp ? 'Postear' : 'Editar'}
+          {editProp ? "Postear" : "Editar"}
         </Button>
       </form>
     </>
