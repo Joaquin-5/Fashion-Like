@@ -5,6 +5,7 @@ import { fashionApi } from "../../api/fashionApi";
 import Swal from "sweetalert2";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
+const specialChars = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
 
 export const FormPost = ({
   titleProp = "",
@@ -12,7 +13,7 @@ export const FormPost = ({
   imageProp,
   editProp,
   setIsEdit,
-  handleModalProp
+  handleModalProp,
 }) => {
   const [title, setTitle] = useState(titleProp);
   const [description, setDescription] = useState(descriptionProp);
@@ -20,13 +21,23 @@ export const FormPost = ({
   const inputFile = useRef(null);
   const [selectedFile, setSelectedFile] = useState(imageProp || null);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const validacion = () => {
-    setError(false);
+  const validacion = (title) => {
     if (title.length < 2 || title.length > 30) {
       setError(true);
+      setErrorMessage(
+        "El título debe tener como mínimo 2 y un máximo de 30 caracteres"
+      );
       return true;
     }
+    if (title.match(specialChars) == null) {
+      setError(true);
+      setErrorMessage("No se pueden usar numeros ni caracteres especiales");
+      return true;
+    }
+    setError(false);
+    setErrorMessage("");
     return false;
   };
 
@@ -47,25 +58,34 @@ export const FormPost = ({
         return;
       }
       setIsEdit(true);
-      // Editar 
-      console.log({title, description, image});
+      // Editar
+      console.log({ title, description, image });
       return;
     }
     // Crear
-    const res = await fashionApi.post('/clothes/add', {title, description, file: image}, {headers: {'Content-Type':'multipart/form-data'}});
+    const res = await fashionApi.post(
+      "/clothes/add",
+      { title, description, file: image },
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
     console.log(res);
     if (res.data.ok) {
       handleModalProp();
       Swal.fire({
-        icon: 'success',
-        title: 'El posteo se ha hecho correctamente',
+        icon: "success",
+        title: "El posteo se ha hecho correctamente",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
       setTimeout(() => {
-        location.reload()
-      }, 1500)
+        location.reload();
+      }, 1500);
     }
+  };
+
+  const handleTitleError = (e) => {
+    setTitle(e.target.value);
+    validacion(e.target.value);
   };
 
   return (
@@ -76,13 +96,14 @@ export const FormPost = ({
           label="Título"
           variant="outlined"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleTitleError}
           required
-          onBlur={validacion}
+          onBlur={(e) => {
+            validacion(e.target.value);
+          }}
           error={error}
-          helperText={
-            error ? "El título debe tener como mínimo 2 y un máximo de 30 caracteres" : null
-          }
+          helperText={error ? errorMessage : null}
+          inputProps={{ pattern: "[a-z]" }}
         />
         <TextField
           id="standard-multiline-flexible"
@@ -143,7 +164,11 @@ export const FormPost = ({
           type="submit"
           variant="contained"
           color="success"
-          disabled={(title.length < 2 || title.length > 30 || !image) ? true : false}
+          disabled={
+            error || title.length < 2 || title.length > 30 || !image
+              ? true
+              : false
+          }
         >
           Enviar
         </Button>
