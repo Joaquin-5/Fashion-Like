@@ -15,11 +15,12 @@ import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import Swal from "sweetalert2";
 import { FormPost } from "../form/FormPost";
 import { fashionApi } from "../../api/fashionApi";
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 import { es } from "dayjs/locale/es";
+import { CancelButton } from "../buttons/CancelButton";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
-dayjs.locale('es')
+dayjs.locale("es");
 
 export const Cards = ({
   tileProp,
@@ -102,9 +103,13 @@ export const Cards = ({
                 </Typography>
               }
               subheader={
-                <Typography fontSize={".8rem"} sx={{ opacity: 0.8 }} textTransform="capitalize">
+                <Typography
+                  fontSize={".8rem"}
+                  sx={{ opacity: 0.8 }}
+                  textTransform="capitalize"
+                >
                   {dateProp
-                    ? dayjs(dateProp).format('dddd MM/YYYY')
+                    ? dayjs(dateProp).format("dddd MM/YYYY")
                     : "September 14, 2016"}
                 </Typography>
               }
@@ -124,14 +129,7 @@ export const Cards = ({
           </>
         ) : (
           <div style={{ position: "relative", paddingTop: "3.5rem" }}>
-            <button
-              onClick={() => setIsEdit(true)}
-              className="cerrar-edicion"
-              color="error"
-              variant="outlined"
-            >
-              X
-            </button>
+            <CancelButton onClick={() => setIsEdit(true)} />
             <FormPost
               titleProp={title}
               descriptionProp={description}

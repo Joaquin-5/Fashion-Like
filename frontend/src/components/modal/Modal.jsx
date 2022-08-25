@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Typography, Modal, Divider } from "@mui/material";
 import { FormPost } from "../form/FormPost";
 import AddIcon from "@mui/icons-material/Add";
+import { CancelButton } from "../buttons/CancelButton";
 
 const style = {
   position: "absolute",
@@ -22,20 +23,39 @@ export const ModalComponent = () => {
 
   return (
     <>
-      <Button startIcon={<AddIcon />} color="inherit" onClick={handleOpen}>Nuevo Posteo</Button>
+      <Button startIcon={<AddIcon />} color="inherit" onClick={handleOpen}>
+        Nuevo Posteo
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        sx={{ "& > div": { border: "none", borderRadius: "10px", boxShadow: "0 0 10px -2px #000" } }}
+        sx={{
+          "& > div": {
+            border: "none",
+            borderRadius: "10px",
+            boxShadow: "0 0 10px -2px #000",
+          },
+        }}
       >
         <Box sx={style}>
+          <CancelButton
+            onClick={handleClose}
+            style={{
+              top: "-17px",
+              right: "-17px",
+              background: "red",
+              color: "white",
+              borderRadius: "50%",
+              padding: "11px 14px",
+            }}
+          />
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Crear una nueva publicación
           </Typography>
 
           <Divider sx={{ mt: 1, mb: 3 }} />
-          <FormPost editProp handleModalProp={handleClose}/>
+          <FormPost editProp handleModalProp={handleClose} />
         </Box>
       </Modal>
     </>

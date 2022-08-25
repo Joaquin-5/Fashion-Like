@@ -6,6 +6,7 @@ export const UploadImageButton = ({
   handleImageUpload,
   imagen = false,
   url,
+  textButton = "Subir imagen"
 }) => {
   return (
     <>
@@ -40,7 +41,7 @@ export const UploadImageButton = ({
             hidden
             accept="image/jpg, image/jpeg"
           />
-          Subir imagen
+          {textButton}
         </Button>
       )}
     </>

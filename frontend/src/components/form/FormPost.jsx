@@ -103,7 +103,6 @@ export const FormPost = ({
           }}
           error={error}
           helperText={error ? errorMessage : null}
-          inputProps={{ pattern: "[a-z]" }}
         />
         <TextField
           id="standard-multiline-flexible"
@@ -136,6 +135,7 @@ export const FormPost = ({
         <UploadImageButton
           inputFile={inputFile}
           handleImageUpload={handleImageUpload}
+          textButton={image ? "Cambiar imagen" : "Subir imagen"}
         />
         {/* <TextField
           id="filled-basic"
@@ -170,7 +170,7 @@ export const FormPost = ({
               : false
           }
         >
-          Enviar
+          {editProp ? 'Postear' : 'Editar'}
         </Button>
       </form>
     </>
