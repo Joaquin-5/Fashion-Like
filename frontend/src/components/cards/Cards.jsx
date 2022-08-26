@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "./card.style.css";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -12,16 +12,13 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Typography } from "@mui/material";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import Swal from "sweetalert2";
 import { FormPost } from "../form/FormPost";
-import { fashionApi } from "../../api/fashionApi";
 import dayjs from "dayjs";
-import { es } from "dayjs/locale/es";
 import { CancelButton } from "../buttons/CancelButton";
 import { useDispatch } from "react-redux";
 import { startDeletePost } from "../../store/clothes";
 
-const imageMimeType = /image\/(jpg|jpeg)/i;
+import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
 
 export const Cards = ({
@@ -33,9 +30,6 @@ export const Cards = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
-  const [title, setTitle] = useState(tileProp);
-  const [description, setDescription] = useState(descriptionProp);
-  const [image, setImage] = useState(imageProp);
   const dispatch = useDispatch();
 
   const open = Boolean(anchorEl);
@@ -48,7 +42,7 @@ export const Cards = ({
 
   const handleDelete = (id) => {
     setAnchorEl(null);
-    dispatch(startDeletePost(id))
+    dispatch(startDeletePost(id));
   };
 
   return (
@@ -77,7 +71,7 @@ export const Cards = ({
               }
               title={
                 <Typography fontWeight="700" fontSize={"1.2rem"}>
-                  {title}
+                  {tileProp}
                 </Typography>
               }
               subheader={
@@ -95,13 +89,13 @@ export const Cards = ({
             <CardMedia
               component="img"
               height="194"
-              image={image}
+              image={imageProp}
               sx={{ objectFit: "contain" }}
               alt="Paella dish"
             />
             <CardContent>
               <Typography variant="body2" color="InfoText">
-                {description}
+                {descriptionProp}
               </Typography>
             </CardContent>{" "}
           </>
@@ -110,9 +104,9 @@ export const Cards = ({
             <CancelButton onClick={() => setIsEdit(true)} />
             <FormPost
               idProp={idProp}
-              titleProp={title}
-              descriptionProp={description}
-              imageProp={image}
+              titleProp={tileProp}
+              descriptionProp={descriptionProp}
+              imageProp={imageProp}
               setIsEdit={setIsEdit}
             />
           </div>
