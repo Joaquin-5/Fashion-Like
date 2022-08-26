@@ -4,23 +4,22 @@ import { Grid } from "@mui/material";
 /* import { FormPost } from '../s/cards/FormPost'; */
 import { Cards } from "../components/cards/Cards";
 import NavBar from "../components/navbar/NavBar";
+import { useDispatch, useSelector } from "react-redux";
+import { startLoadingClothes } from "../store/clothes";
 
 export const Home = () => {
-  const [clothes, setClothes] = useState([]);
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.clothes);
 
   useEffect(() => {
-    fashionApi.get("/clothes/get").then((res) => setClothes(res.data));
+    dispatch(startLoadingClothes());
   }, []);
-
-  const date = [...clothes].sort((a, b) =>
-    a.createdAt > b.createdAt ? -1 : 1
-  );
 
   return (
     <div className="container">
       <NavBar />
       <div className="cards-container">
-        {date.map((c) => (
+        {posts.map((c) => (
           <Grid key={c._id} item xs={6} md={3} justifyContent="center">
             <Cards
               tileProp={c.title}
