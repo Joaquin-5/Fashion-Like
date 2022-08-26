@@ -131,6 +131,7 @@ export const Cards = ({
           <div style={{ position: "relative", paddingTop: "3.5rem" }}>
             <CancelButton onClick={() => setIsEdit(true)} />
             <FormPost
+              idProp={idProp}
               titleProp={title}
               descriptionProp={description}
               imageProp={image}

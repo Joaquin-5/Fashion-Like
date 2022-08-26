@@ -8,6 +8,7 @@ const imageMimeType = /image\/(jpg|jpeg)/i;
 const specialChars = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
 
 export const FormPost = ({
+  idProp,
   titleProp = "",
   descriptionProp = "",
   imageProp,
@@ -51,7 +52,7 @@ export const FormPost = ({
     setSelectedFile(URL.createObjectURL(file));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event, id) => {
     event.preventDefault();
     if (!editProp) {
       if (title.length < 2 || title.length > 30) {
@@ -60,6 +61,12 @@ export const FormPost = ({
       setIsEdit(true);
       // Editar
       console.log({ title, description, image });
+      console.log(id);
+      const res = await fashionApi.put(
+        "/clothes/" + id, 
+        {title, description, file: image},
+        { headers: { "Content-Type": "multipart/form-data" }}
+      );
       return;
     }
     // Crear
@@ -90,7 +97,7 @@ export const FormPost = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="campos">
+      <form onSubmit={(e) => handleSubmit(e, idProp)} className="campos">
         <TextField
           id="filled-basic"
           label="Título"
