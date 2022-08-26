@@ -13,7 +13,7 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(startLoadingClothes());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="container">

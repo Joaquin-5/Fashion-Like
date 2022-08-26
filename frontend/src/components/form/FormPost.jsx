@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
 import { useDispatch } from "react-redux";
-import { startAddNewPost } from "../../store/clothes";
+import { startAddNewPost, startEditPost } from "../../store/clothes";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 const specialChars = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
@@ -59,15 +59,9 @@ export const FormPost = ({
       if (title.length < 2 || title.length > 30) {
         return;
       }
-      setIsEdit(true);
       // Editar
-      console.log({ title, description, image });
-      console.log(id);
-      const res = await fashionApi.put(
-        "/clothes/" + id, 
-        {title, description, file: image},
-        { headers: { "Content-Type": "multipart/form-data" }}
-      );
+      dispatch(startEditPost({id, title, description, image}));
+      setIsEdit(true);
       return;
     }
     // Crear

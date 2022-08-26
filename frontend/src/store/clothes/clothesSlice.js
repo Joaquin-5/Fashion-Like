@@ -14,8 +14,16 @@ export const clothesSlice = createSlice({
     newPost: (state, action) => {
       state.posts.unshift(action.payload);
     },
+    editPost: (state, action) => {
+      state.posts = state.posts.map(e => {
+        if(e._id === action.payload._id) {
+          return action.payload;
+        }
+        return e;
+    })
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setClothes, newPost } = clothesSlice.actions;
+export const { setClothes, newPost, editPost } = clothesSlice.actions;

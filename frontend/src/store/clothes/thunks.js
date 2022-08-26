@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { fashionApi } from "../../api/fashionApi";
-import { newPost, setClothes } from "./clothesSlice";
+import { editPost, newPost, setClothes } from "./clothesSlice";
 
 export const startLoadingClothes = () => {
   return async (dispatch) => {
@@ -32,3 +32,22 @@ export const startAddNewPost = ({ title, description, image }) => {
     dispatch(newPost(resp.data.clothes));
   };
 };
+
+export const startEditPost = ({id, title, description, image}) => {
+  return async (dispatch) => {
+    console.log({id, title, description, image});
+    const res = await fashionApi.put(
+      "/clothes/" + id, 
+      {title, description, file: image},
+      { headers: { "Content-Type": "multipart/form-data" }}
+    );
+    if (!res.data.ok) return;
+    Swal.fire({
+      icon: "success",
+      title: "El posteo se ha editado correctamente",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+    dispatch(editPost(res.data.updatePost));
+  }
+}
