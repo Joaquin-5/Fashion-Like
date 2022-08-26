@@ -21,9 +21,12 @@ export const clothesSlice = createSlice({
         }
         return e;
     })
+    },
+    deletePost: (state, action) => {
+      state.posts = state.posts.filter(e => (e._id !== action.payload))
     }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setClothes, newPost, editPost } = clothesSlice.actions;
+export const { setClothes, newPost, editPost, deletePost } = clothesSlice.actions;

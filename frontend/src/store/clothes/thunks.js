@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { fashionApi } from "../../api/fashionApi";
-import { editPost, newPost, setClothes } from "./clothesSlice";
+import { editPost, newPost, setClothes, deletePost } from "./clothesSlice";
 
 export const startLoadingClothes = () => {
   return async (dispatch) => {
@@ -33,13 +33,13 @@ export const startAddNewPost = ({ title, description, image }) => {
   };
 };
 
-export const startEditPost = ({id, title, description, image}) => {
+export const startEditPost = ({ id, title, description, image }) => {
   return async (dispatch) => {
-    console.log({id, title, description, image});
+    console.log({ id, title, description, image });
     const res = await fashionApi.put(
-      "/clothes/" + id, 
-      {title, description, file: image},
-      { headers: { "Content-Type": "multipart/form-data" }}
+      "/clothes/" + id,
+      { title, description, file: image },
+      { headers: { "Content-Type": "multipart/form-data" } }
     );
     if (!res.data.ok) return;
     Swal.fire({
@@ -49,5 +49,38 @@ export const startEditPost = ({id, title, description, image}) => {
       timer: 1500,
     });
     dispatch(editPost(res.data.updatePost));
-  }
-}
+  };
+};
+
+export const startDeletePost = (id) => {
+  return async (dispatch) => {
+    Swal.fire({
+      title: "¿Estás seguro que querés eliminar esta publicación?",
+      text: "No se va a poder recuperar esta publicación!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, eliminar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(id);
+        fashionApi
+          .delete("/clothes/" + id)
+          .then((res) =>
+            Swal.fire(
+              "Eliminado!",
+              "La publicación ha sido eliminada.",
+              "success"
+            ).then(() => {
+              dispatch(deletePost(id));
+            })
+          )
+          .catch((error) =>
+            Swal.fire("Error", error.response.data.msg, "error")
+          );
+      }
+    });
+  };
+};

@@ -18,6 +18,8 @@ import { fashionApi } from "../../api/fashionApi";
 import dayjs from "dayjs";
 import { es } from "dayjs/locale/es";
 import { CancelButton } from "../buttons/CancelButton";
+import { useDispatch } from "react-redux";
+import { startDeletePost } from "../../store/clothes";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 dayjs.locale("es");
@@ -34,6 +36,7 @@ export const Cards = ({
   const [title, setTitle] = useState(tileProp);
   const [description, setDescription] = useState(descriptionProp);
   const [image, setImage] = useState(imageProp);
+  const dispatch = useDispatch();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -45,32 +48,7 @@ export const Cards = ({
 
   const handleDelete = (id) => {
     setAnchorEl(null);
-    Swal.fire({
-      title: "¿Estás seguro que querés eliminar esta publicación?",
-      text: "No se va a poder recuperar esta publicación!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Si, eliminar!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(id);
-        fashionApi
-          .delete("/clothes/" + id)
-          .then((res) =>
-            Swal.fire(
-              "Eliminado!",
-              "La publicación ha sido eliminada.",
-              "success"
-            ).then(() => location.reload())
-          )
-          .catch((error) =>
-            Swal.fire("Error", error.response.data.msg, "error")
-          );
-      }
-    });
+    dispatch(startDeletePost(id))
   };
 
   return (
