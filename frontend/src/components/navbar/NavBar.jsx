@@ -7,6 +7,8 @@ import { styled, alpha } from "@mui/material/styles";
 import { ModalComponent } from "../modal/Modal";
 import { useDispatch } from "react-redux";
 import { startSearchPost } from "../../store/clothes";
+import SideBar from "../sideBar/SideBar";
+import { openSideBar } from "../../store/sideBar";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,44 +60,49 @@ function NavBar() {
   const handleSearch = (e) => {
     dispatch(startSearchPost(e.target.value));
   };
+
   return (
-    <AppBar
-      position="static"
-      sx={{ marginBottom: "2.2rem" }}
-      color="transparent"
-      elevation={1}
-    >
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="open drawer"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-        >
-          Fashion Like
-        </Typography>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Buscar..."
-            inputProps={{ "aria-label": "search" }}
-            onChange={handleSearch}
-          />
-        </Search>
-        <ModalComponent />
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar
+        position="static"
+        sx={{ marginBottom: "2.2rem" }}
+        color="transparent"
+        elevation={1}
+      >
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+            onClick={() => dispatch(openSideBar())}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+          >
+            Fashion Like
+          </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Buscar..."
+              inputProps={{ "aria-label": "search" }}
+              onChange={handleSearch}
+            />
+          </Search>
+          <ModalComponent />
+        </Toolbar>
+      </AppBar>
+      <SideBar />
+    </>
   );
 }
 
