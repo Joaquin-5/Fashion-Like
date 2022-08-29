@@ -13,26 +13,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeSideBar } from "../../store/sideBar";
 
 function SideBar() {
-  const [state, setState] = React.useState(false);
-  const {open} = useSelector(state => state.sideBar);
-  const dispatch = useDispatch()
+  const { open } = useSelector((state) => state.sideBar);
+  const dispatch = useDispatch();
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const toggleDrawer = (open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
-    setState(open);
+    !open && dispatch(closeSideBar());
   };
 
-  const list = (anchor) => (
+  const list = () => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{ width: 250 }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
     >
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
@@ -64,13 +63,11 @@ function SideBar() {
 
   return (
     <div>
-        <React.Fragment>
-          <Drawer
-            anchor={"left"}
-            open={open}
-            onClose={() => dispatch(closeSideBar())}
-          >{list("left")}</Drawer>
-        </React.Fragment>
+      <React.Fragment>
+        <Drawer anchor={"left"} open={open} onClose={toggleDrawer(false)}>
+          {list()}
+        </Drawer>
+      </React.Fragment>
     </div>
   );
 }
