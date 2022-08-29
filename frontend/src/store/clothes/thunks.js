@@ -35,7 +35,6 @@ export const startAddNewPost = ({ title, description, image }) => {
 
 export const startEditPost = ({ id, title, description, image }) => {
   return async (dispatch) => {
-    console.log({ id, title, description, image });
     const res = await fashionApi.put(
       "/clothes/" + id,
       { title, description, file: image },
@@ -65,7 +64,6 @@ export const startDeletePost = (id) => {
       confirmButtonText: "Si, eliminar!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id);
         fashionApi
           .delete("/clothes/" + id)
           .then((res) =>

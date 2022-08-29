@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { fashionApi } from "../api/fashionApi";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 /* import { FormPost } from '../s/cards/FormPost'; */
 import { Cards } from "../components/cards/Cards";
