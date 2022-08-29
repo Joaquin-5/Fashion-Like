@@ -1,6 +1,12 @@
 import Swal from "sweetalert2";
 import { fashionApi } from "../../api/fashionApi";
-import { editPost, newPost, setClothes, deletePost } from "./clothesSlice";
+import {
+  editPost,
+  newPost,
+  setClothes,
+  deletePost,
+  searchPost,
+} from "./clothesSlice";
 
 export const startLoadingClothes = () => {
   return async (dispatch) => {
@@ -80,5 +86,11 @@ export const startDeletePost = (id) => {
           );
       }
     });
+  };
+};
+
+export const startSearchPost = (word) => {
+  return async (dispatch) => {
+    dispatch(searchPost(word));
   };
 };

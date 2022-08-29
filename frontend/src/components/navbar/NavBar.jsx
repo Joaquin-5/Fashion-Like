@@ -2,9 +2,11 @@ import React from "react";
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import InputBase from '@mui/material/InputBase';
+import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import { ModalComponent } from "../modal/Modal";
+import { useDispatch } from "react-redux";
+import { startSearchPost } from "../../store/clothes";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -19,7 +21,7 @@ const Search = styled("div")(({ theme }) => ({
     marginLeft: theme.spacing(1),
     width: "auto",
   },
-  marginRight: "1rem"
+  marginRight: "1rem",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -30,7 +32,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  zIndex: 2
+  zIndex: 2,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -52,8 +54,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 function NavBar() {
+  const dispatch = useDispatch();
+  const handleSearch = (e) => {
+    dispatch(startSearchPost(e.target.value));
+  };
   return (
-    <AppBar position="static" sx={{marginBottom: "2.2rem"}} color="transparent" elevation={1}>
+    <AppBar
+      position="static"
+      sx={{ marginBottom: "2.2rem" }}
+      color="transparent"
+      elevation={1}
+    >
       <Toolbar>
         <IconButton
           size="large"
@@ -73,12 +84,13 @@ function NavBar() {
           Fashion Like
         </Typography>
         <Search>
-          <SearchIconWrapper >
+          <SearchIconWrapper>
             <SearchIcon />
           </SearchIconWrapper>
           <StyledInputBase
             placeholder="Buscar..."
             inputProps={{ "aria-label": "search" }}
+            onChange={handleSearch}
           />
         </Search>
         <ModalComponent />
