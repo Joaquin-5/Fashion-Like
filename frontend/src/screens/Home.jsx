@@ -15,8 +15,8 @@ export const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="container">
-      <NavBar />
+    <>
+      {/* <NavBar /> */}
       <div className="cards-container">
         {!filter
           ? posts.map((c) => (
@@ -42,6 +42,6 @@ export const Home = () => {
               </Grid>
             ))}
       </div>
-    </div>
+    </>
   );
 };
