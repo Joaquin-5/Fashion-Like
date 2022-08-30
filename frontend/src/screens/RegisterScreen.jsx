@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export const RegisterScreen = () => {
-  const [hasError, setHasError] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, handleInputChange] = useCustomForm({
     username: "",
