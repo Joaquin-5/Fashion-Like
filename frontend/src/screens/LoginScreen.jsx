@@ -27,6 +27,7 @@ export const LoginScreen = () => {
         <TextField
           label="Email"
           name="email"
+          type="email"
           variant="outlined"
           value={email}
           onChange={handleInputChange}
