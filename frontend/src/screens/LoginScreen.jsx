@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useCustomForm } from "../hooks";
+import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const LoginScreen = () => {
   const [formData, handleInputChange] = useCustomForm({
@@ -19,16 +21,9 @@ export const LoginScreen = () => {
   };
 
   return (
-    <div>
-      <form
-        onSubmit={(e) => handleSubmit(e)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "2em",
-          margin: "15% 40%",
-        }}
-      >
+    <div className="card-auth">
+      <h1>Log-In</h1>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
           label="Email"
           name="email"
@@ -45,9 +40,10 @@ export const LoginScreen = () => {
           onChange={handleInputChange}
           autoComplete="off"
         />
-        <Button type="submit" variant="contained" color="success">
+        <Button type="submit" variant="contained" color="info">
           Enviar
         </Button>
+        <Typography>Si no tenés una cuenta, <Link to={"/auth/register"}>haz click aquí</Link></Typography>
       </form>
     </div>
   );

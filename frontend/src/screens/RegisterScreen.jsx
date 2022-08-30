@@ -1,6 +1,8 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useCustomForm } from "../hooks";
+import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export const RegisterScreen = () => {
   const [hasError, setHasError] = useState(true);
@@ -78,6 +80,7 @@ export const RegisterScreen = () => {
         <Button type="submit" variant="contained" disabled={hasError}>
           Submit
         </Button>
+        <Typography>Si ya tenés una cuenta, <Link to={"/auth/login"}>haz click aquí</Link></Typography>
       </form>
     </div>
   );
