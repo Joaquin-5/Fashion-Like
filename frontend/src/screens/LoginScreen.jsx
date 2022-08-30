@@ -41,7 +41,7 @@ export const LoginScreen = () => {
           autoComplete="off"
         />
         <Button type="submit" variant="contained" color="info">
-          Enviar
+          Iniciar Sesión
         </Button>
         <Typography>Si no tenés una cuenta, <Link to={"/auth/register"}>haz click aquí</Link></Typography>
       </form>

@@ -78,7 +78,7 @@ export const RegisterScreen = () => {
           helperText={hasError && errorMessage}
         />
         <Button type="submit" variant="contained" disabled={hasError}>
-          Submit
+          Crear Cuenta
         </Button>
         <Typography>Si ya tenés una cuenta, <Link to={"/auth/login"}>haz click aquí</Link></Typography>
       </form>
