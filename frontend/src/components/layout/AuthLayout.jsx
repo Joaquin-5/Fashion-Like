@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 export const AuthLayout = () => {
   return (
-    <div>
+    <div className="container grid-center">
       <Outlet />
     </div>
   );

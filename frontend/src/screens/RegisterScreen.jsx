@@ -31,8 +31,8 @@ export const RegisterScreen = () => {
     return;
   };
   return (
-    <div>
-      <h1>Registro</h1>
+    <div className="card-auth">
+      <h1 style={{textAlign: 'center'}}>Registro</h1>
       <form onSubmit={handleSubmit}>
         <TextField
           id="username"
