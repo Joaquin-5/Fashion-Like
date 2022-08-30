@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import "../index.css";
+import { useCustomForm } from "../hooks";
 
 export const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, handleInputChange] = useCustomForm({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = formData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email);
     console.log(password);
+    console.log(formData);
   };
 
   return (
-    <>
+    <div>
       <form
         onSubmit={(e) => handleSubmit(e)}
         style={{
@@ -26,22 +31,24 @@ export const LoginScreen = () => {
       >
         <TextField
           label="Email"
+          name="email"
           variant="outlined"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleInputChange}
         />
         <TextField
           type="password"
+          name="password"
           label="Contraseña"
           variant="outlined"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleInputChange}
           autoComplete="off"
         />
         <Button type="submit" variant="contained" color="success">
           Enviar
         </Button>
       </form>
-    </>
+    </div>
   );
 };
