@@ -22,7 +22,7 @@ export const LoginScreen = () => {
 
   return (
     <div className="card-auth">
-      <h1>Log-In</h1>
+      <h1>Iniciar Sesión</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField
           label="Email"
