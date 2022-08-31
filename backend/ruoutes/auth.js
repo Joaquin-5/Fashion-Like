@@ -32,12 +32,11 @@ const UserModel = mongoose.model("user", user);
 
 router.post('/register',async(req, res)=>{
     let body = req.body;
-    const salt = bcrypt.genSaltSync(10);
     let { username, email, password, role } = body;
     let user = new UserModel({
         username,
       email,
-      password: bcrypt.hashSync(password, salt),
+      password: bcrypt.hashSync(password, 10),
       role
     });
   user.save((err, usuarioDB) => {
