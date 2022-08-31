@@ -156,7 +156,7 @@ export const FormPost = ({
               : false
           }
         >
-          {editProp ? "Postear" : "Editar"}
+          {editProp ? "Postear" : "Guardar"}
         </Button>
       </form>
     </>
