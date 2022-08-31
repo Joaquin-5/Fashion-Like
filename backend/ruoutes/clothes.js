@@ -20,10 +20,10 @@ const clothes = new schema(
 
 const ClothesModel = mongoose.model("clothes", clothes);
 module.exports = router;
-/*
+
 router.get('/example',(rq, res)=>{
     res.end('hi')
-})*/
+})
 
 router.post("/add", async (req, res) => {
   const form = new formidable.IncomingForm();

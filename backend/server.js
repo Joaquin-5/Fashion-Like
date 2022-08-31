@@ -7,6 +7,7 @@ app.use(cors())
 const dbfile = require("./connection");
 
 const routesC = require("./ruoutes/clothes");
+const routesA = require("./ruoutes/auth");
 
 //body parse
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/clothes", routesC);
+app.use("/api/user",routesA);
 
 app.get("/", (req, res) => {
   res.end("funciona!");
