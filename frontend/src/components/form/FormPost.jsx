@@ -3,9 +3,95 @@ import { TextField, Button } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
 import { useDispatch } from "react-redux";
 import { startAddNewPost, startEditPost } from "../../store/clothes";
+import ReactCrop from "react-image-crop";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 
 const imageMimeType = /image\/(jpg|jpeg)/i;
 const specialChars = "^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: "80vw",
+  height: "80vh",
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3,
+};
+
+function ChildModal({ src, inputFile, handleImageUpload, textButton, image }) {
+  const [open, setOpen] = React.useState(false);
+  const [crop, setCrop] = useState({
+    unit: "%", // Can be 'px' or '%'
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 100,
+  });
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <React.Fragment>
+      <Button onClick={handleOpen}>Subir Imágen</Button>
+      <Modal
+        hideBackdrop
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{ ...style}}>
+          {image && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <h2 style={{ marginBottom: "0" }}>{image.name}</h2>
+              <div style={{ height: "auto", width: "80%" }}>
+                <ReactCrop
+                  crop={crop}
+                  onChange={(crop, percentCrop) => setCrop(crop)}
+                  onComplete={console.log}
+                >
+                  <img
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "contain",
+                    }}
+                    src={src}
+                    alt="preview"
+                  />
+                </ReactCrop>
+              </div>
+            </div>
+          )}
+          <UploadImageButton
+            inputFile={inputFile}
+            handleImageUpload={handleImageUpload}
+            textButton={image ? "Cambiar imagen" : "Subir imagen"}
+          />
+          <Button onClick={handleClose}>Close Child Modal</Button>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
+}
 
 export const FormPost = ({
   idProp,
@@ -60,7 +146,7 @@ export const FormPost = ({
         return;
       }
       // Editar
-      dispatch(startEditPost({id, title, description, image}));
+      dispatch(startEditPost({ id, title, description, image }));
       setIsEdit(true);
       return;
     }
@@ -99,29 +185,12 @@ export const FormPost = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        {image && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <h2 style={{ marginBottom: "0" }}>{image.name}</h2>
-            <div style={{ height: "100px", width: "100px" }}>
-              <img
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                src={selectedFile}
-                alt="preview"
-              />
-            </div>
-          </div>
-        )}
-
-        <UploadImageButton
+        <ChildModal
+          src={selectedFile}
           inputFile={inputFile}
           handleImageUpload={handleImageUpload}
           textButton={image ? "Cambiar imagen" : "Subir imagen"}
+          image={image}
         />
         {/* <TextField
           id="filled-basic"

@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 import { Router } from "./router/Router";
 import { store } from "./store";
+import "react-image-crop/dist/ReactCrop.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
