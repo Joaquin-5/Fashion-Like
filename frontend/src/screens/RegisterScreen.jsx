@@ -1,11 +1,16 @@
-import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useCustomForm } from "../hooks";
-import { Typography } from "@mui/material";
+
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { Typography } from "@mui/material";
+
 import { BackButton } from "../components/buttons/BackButton";
+import { useCustomForm } from "../hooks";
+import { startRegister } from "../store/auth";
 
 export const RegisterScreen = () => {
+  const dispatch = useDispatch();
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, handleInputChange] = useCustomForm({
@@ -20,10 +25,20 @@ export const RegisterScreen = () => {
     if (validation()) return;
     if (hasError) return;
 
-    console.log(formData);
+    dispatch(startRegister(formData));
   };
 
   const validation = () => {
+    if (password.length < 6) {
+      setHasError(true);
+      setErrorMessage("La contraseña debe tener como mínimo 6 caracteres");
+      return;
+    }
+    if (password.search(/[A-Z]/) < 0) {
+      setHasError(true);
+      setErrorMessage("La contraseña debe tener una mayuscula como minimo");
+      return;
+    }
     if (password !== password2) {
       setHasError(true);
       setErrorMessage("Las contraseñas no coinciden");
@@ -36,7 +51,7 @@ export const RegisterScreen = () => {
   return (
     <div className="card-auth">
       <BackButton to="/" />
-      <h1 style={{textAlign: 'center'}}>Registro</h1>
+      <h1 style={{ textAlign: "center" }}>Registro</h1>
       <form onSubmit={handleSubmit}>
         <TextField
           id="username"
@@ -82,7 +97,9 @@ export const RegisterScreen = () => {
         <Button type="submit" variant="contained" disabled={hasError}>
           Crear Cuenta
         </Button>
-        <Typography>Si ya tenés una cuenta, <Link to={"/auth/login"}>haz click aquí</Link></Typography>
+        <Typography>
+          Si ya tenés una cuenta, <Link to={"/auth/login"}>haz click aquí</Link>
+        </Typography>
       </form>
     </div>
   );
