@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { useCustomForm } from "../hooks";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { BackButton } from "../components/buttons/BackButton";
 
 export const LoginScreen = () => {
   const [formData, handleInputChange] = useCustomForm({
@@ -22,6 +23,7 @@ export const LoginScreen = () => {
 
   return (
     <div className="card-auth">
+      <BackButton to="/" />
       <h1>Iniciar Sesión</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <TextField

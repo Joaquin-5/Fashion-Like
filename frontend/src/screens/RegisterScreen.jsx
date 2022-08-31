@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useCustomForm } from "../hooks";
 import { Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { BackButton } from "../components/buttons/BackButton";
 
 export const RegisterScreen = () => {
   const [hasError, setHasError] = useState(false);
@@ -34,6 +35,7 @@ export const RegisterScreen = () => {
   };
   return (
     <div className="card-auth">
+      <BackButton to="/" />
       <h1 style={{textAlign: 'center'}}>Registro</h1>
       <form onSubmit={handleSubmit}>
         <TextField

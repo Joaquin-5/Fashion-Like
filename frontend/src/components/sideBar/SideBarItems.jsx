@@ -7,26 +7,23 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import React from "react";
+import { menuItemsAdminPanel, menuItemsWithoutAuth } from "./menuItemData";
+import { useNavigate } from 'react-router-dom'
 
 export const SideBarItems = () => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{ width: 250 }}
       role="presentation"
-      // onClick={toggleDrawer(false)}
-      // onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {["Ingresar", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+        {menuItemsWithoutAuth.map((data, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton onClick={() => {navigate(data.link)}}>
+              <ListItemIcon>{data.icon}</ListItemIcon>
+              <ListItemText primary={data.text} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -36,7 +33,21 @@ export const SideBarItems = () => {
         <ListItem>
           <ListItemText primary="Admin Panel" />
         </ListItem>
-        {["Gestionar usuarios", "Gestionar Posteos"].map((text, index) => (
+        {menuItemsAdminPanel.map((data, index) => (
+          <ListItem key={index} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>{data.icon}</ListItemIcon>
+              <ListItemText primary={data.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+};
+
+{
+  /* {["Ingresar", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -45,8 +56,5 @@ export const SideBarItems = () => {
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-};
+        ))} */
+}
