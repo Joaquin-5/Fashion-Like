@@ -11,8 +11,18 @@ import { startRegister } from "../store/auth";
 
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
-  const [hasError, setHasError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [hasError, setHasError] = useState({
+    username: false,
+    email: false,
+    password: false,
+    password2: false,
+  });
+  const [errorMessage, setErrorMessage] = useState({
+    username: "",
+    email: "",
+    password: "",
+    password2: "",
+  });
   const [formData, handleInputChange] = useCustomForm({
     username: "",
     email: "",
@@ -22,31 +32,103 @@ export const RegisterScreen = () => {
   const { username, email, password, password2 } = formData;
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validation()) return;
-    if (hasError) return;
+    if (
+      hasError.email ||
+      hasError.password ||
+      hasError.password2 ||
+      hasError.username
+    )
+      return;
 
     dispatch(startRegister(formData));
   };
 
-  const validation = () => {
-    if (password.length < 6) {
-      setHasError(true);
-      setErrorMessage("La contraseña debe tener como mínimo 6 caracteres");
-      return;
+  const isValidEmail = (email) => {
+    return /\S+@\S+.\S+/.test(email);
+  };
+
+  const usernameValidation = (e) => {
+    if (e.target.value.length < 3 || e.target.value.length > 20) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]:
+          "El nombre de usuario debe tener entre 3 y 20 caracteres",
+      });
+    } else if (e.target.value.match(/[^a-zA-Z0-9]/)) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]:
+          "El nombre de usuario no puede contener caracteres especiales",
+      });
+    } else {
+      setHasError({ ...hasError, [e.target.name]: false });
+      setErrorMessage({ ...errorMessage, [e.target.name]: "" });
     }
-    if (password.search(/[A-Z]/) < 0) {
-      setHasError(true);
-      setErrorMessage("La contraseña debe tener una mayuscula como minimo");
-      return;
+  };
+  const emailValidation = (e) => {
+    if (e.target.value.length < 3 || e.target.value.length > 50) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "El email debe tener entre 3 y 50 caracteres",
+      });
+    } else if (!isValidEmail(e.target.value)) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "El email no es válido",
+      });
+    } else {
+      setHasError({ ...hasError, [e.target.name]: false });
+      setErrorMessage({ ...errorMessage, [e.target.name]: "" });
     }
-    if (password !== password2) {
-      setHasError(true);
-      setErrorMessage("Las contraseñas no coinciden");
-      return;
+  };
+
+  const passwordValidation = (e) => {
+    if (e.target.value.length < 6 || e.target.value.length > 20) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "La contraseña debe tener entre 6 y 20 caracteres",
+      });
+    } else if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/.test(e.target.value)
+    ) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]:
+          "La contraseña debe tener al menos una letra mayúscula, una letra minúscula y un número",
+      });
+    } else {
+      setHasError({ ...hasError, [e.target.name]: false });
+      setErrorMessage({ ...errorMessage, [e.target.name]: "" });
     }
-    setHasError(false);
-    setErrorMessage("");
-    return;
+  };
+
+  const password2Validation = (e) => {
+    if (e.target.value.length < 6 || e.target.value.length > 20) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "La contraseña debe tener entre 6 y 20 caracteres",
+      });
+    } else {
+      setHasError({ ...hasError, [e.target.name]: false });
+      setErrorMessage({ ...errorMessage, [e.target.name]: "" });
+    }
+    if (password !== e.target.value) {
+      setHasError({ ...hasError, password2: true });
+      setErrorMessage({
+        ...errorMessage,
+        password2: "Las contraseñas no coinciden",
+      });
+    } else {
+      setHasError({ ...hasError, password2: false });
+      setErrorMessage({ ...errorMessage, password2: "" });
+    }
   };
   return (
     <div className="card-auth">
@@ -59,7 +141,13 @@ export const RegisterScreen = () => {
           label="Nombre de usuario"
           variant="outlined"
           value={username}
-          onChange={handleInputChange}
+          onBlur={usernameValidation}
+          onChange={(e) => {
+            handleInputChange(e);
+            usernameValidation(e);
+          }}
+          error={hasError.username}
+          helperText={errorMessage.username}
         />
         <TextField
           id="email"
@@ -68,7 +156,13 @@ export const RegisterScreen = () => {
           label="Email"
           variant="outlined"
           value={email}
-          onChange={handleInputChange}
+          onChange={(e) => {
+            handleInputChange(e);
+            emailValidation(e);
+          }}
+          onBlur={emailValidation}
+          error={hasError.email}
+          helperText={errorMessage.email}
         />
         <TextField
           id="password"
@@ -77,10 +171,13 @@ export const RegisterScreen = () => {
           label="Contraseña"
           variant="outlined"
           value={password}
-          onChange={handleInputChange}
-          onBlur={validation}
-          error={hasError}
-          helperText={hasError && errorMessage}
+          onChange={(e) => {
+            handleInputChange(e);
+            passwordValidation(e);
+          }}
+          onBlur={passwordValidation}
+          error={hasError.password}
+          helperText={errorMessage.password}
         />
         <TextField
           id="repeat-password"
@@ -89,12 +186,24 @@ export const RegisterScreen = () => {
           variant="outlined"
           name="password2"
           value={password2}
-          onChange={handleInputChange}
-          onBlur={validation}
-          error={hasError}
-          helperText={hasError && errorMessage}
+          onChange={(e) => {
+            handleInputChange(e);
+            password2Validation(e);
+          }}
+          onBlur={password2Validation}
+          error={hasError.password2}
+          helperText={errorMessage.password2}
         />
-        <Button type="submit" variant="contained" disabled={hasError}>
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={
+            hasError.username ||
+            hasError.email ||
+            hasError.password ||
+            hasError.password2
+          }
+        >
           Crear Cuenta
         </Button>
         <Typography>
