@@ -6,11 +6,11 @@ import LoginIcon from '@mui/icons-material/Login';
 export const menuItemsAdminPanel = [
   {
     text: "Gestionar usuarios",
-    icon: <ManageAccountsIcon />,
+    icon: <ManageAccountsIcon color="info"/>,
   },
   {
     text: "Gestionar Posteos",
-    icon: <DescriptionIcon />,
+    icon: <DescriptionIcon color="info"/>,
   },
 ];
 export const menuItemsWithoutAuth = [
