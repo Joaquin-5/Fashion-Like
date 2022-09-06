@@ -17,12 +17,12 @@ const user = new schema(
     password: { type: String, required: true },
     emailVerified: { type: Boolean, default: false },
     role: {
-        type: String,
-        enum: {
+      type: String,
+      enum: {
         values: ["ROLE_ADMIN", "ROLE_USER"],
         message: "{VALUE} no es un role válido",
         default: "ROLE_USER",
-            required: true,
+        required: true,
       },
     },
   },
@@ -100,73 +100,73 @@ router.get("/verify-email/:token", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-    let body = req.body;
-    let { username, email, password, role } = body;
-    let user = new UserModel({
-        username,
-      email,
-      password: bcrypt.hashSync(password, 10),
+  let body = req.body;
+  let { username, email, password, role } = body;
+  let user = new UserModel({
+    username,
+    email,
+    password: bcrypt.hashSync(password, 10),
     emailVerified: false,
     role,
-    });
+  });
   user.save((err, usuarioDB) => {
-      if (err) {
-        return res.status(400).json({
-           ok: false,
-           err,
-        });
-      }
-      res.json({
-            ok: true,
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+    res.json({
+      ok: true,
       user: usuarioDB,
-         });
+    });
   });
 });
 
-  module.exports = router;
+module.exports = router;
 
 router.post("/login", async (req, res) => {
-    let body = req.body;
-    
+  let body = req.body;
+
   UserModel.findOne({ email: body.email }, (erro, usuarioDB) => {
-      if (erro) {
-        return res.status(500).json({
-           ok: false,
+    if (erro) {
+      return res.status(500).json({
+        ok: false,
         err: erro,
       });
-     }
- // Verifica que exista un usuario con el mail escrita por el usuario.
+    }
+    // Verifica que exista un usuario con el mail escrita por el usuario.
     if (!usuarioDB) {
-       return res.status(400).json({
-         ok: false,
-         err: {
+      return res.status(400).json({
+        ok: false,
+        err: {
           message: "Usuario o contraseña incorrectos",
         },
       });
     }
- // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
+    // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
     if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
-       return res.status(400).json({
-          ok: false,
-          err: {
+      return res.status(400).json({
+        ok: false,
+        err: {
           message: "Usuario o contraseña incorrectos",
         },
-       });
+      });
     }
- // Genera el token de autenticación
+    // Genera el token de autenticación
     let token = jwt.sign(
       {
-      user: usuarioDB,
+        user: usuarioDB,
       },
       process.env.SEED_AUTENTICACION,
       {
         expiresIn: process.env.CADUCIDAD_TOKEN,
       }
     );
-     res.json({
-         ok: true,
-         user: usuarioDB,
-         token,
-  });
+    res.json({
+      ok: true,
+      user: usuarioDB,
+      token,
+    });
   });
 });
