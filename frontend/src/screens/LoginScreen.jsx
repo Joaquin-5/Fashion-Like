@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { BackButton } from "../components/buttons/BackButton";
 import { startLogin } from "../store/auth";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 
 export const LoginScreen = () => {
   const [formData, handleInputChange] = useCustomForm({
@@ -18,6 +20,7 @@ export const LoginScreen = () => {
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { email, password } = formData;
 

@@ -1,6 +1,6 @@
 import { fashionApi } from "../../api/fashionApi";
 import Swal from "sweetalert2";
-import { login } from "./AuthSlice";
+import { login, logOut } from "./AuthSlice";
 
 export const startRegister = (user) => {
   return async (dispatch) => {
@@ -31,6 +31,9 @@ export const startLogin = ({ email, password }) => {
       dispatch(login(resp.data));
       localStorage.setItem("token", resp.data.token);
       localStorage.setItem("data", JSON.stringify(resp.data.user));
+      if (resp.data.ok) {
+        window.location.href="/";
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -41,3 +44,10 @@ export const startLogin = ({ email, password }) => {
     }
   };
 };
+
+export const startLogOut = () => {
+  return (dispatch) => {
+    dispatch(logOut());
+    localStorage.clear();
+  }
+}
