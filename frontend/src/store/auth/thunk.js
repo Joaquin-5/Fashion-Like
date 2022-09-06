@@ -51,3 +51,17 @@ export const startLogOut = () => {
     localStorage.clear();
   }
 }
+
+export const checkAuthState = () => {
+  return async (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const resp = await fashionApi.get(`/user/check-auth/${token}`);
+        dispatch(login(resp.data));
+      } catch (error) {
+        localStorage.clear();
+      }
+    }
+  };
+}
