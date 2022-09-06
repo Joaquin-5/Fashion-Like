@@ -88,7 +88,7 @@ router.post('/register',async(req, res)=>{
      let token = jwt.sign({
       user: usuarioDB,
          }, process.env.SEED_AUTENTICACION, {
-         expiresIn: process.env.CADUCIDAD_TOKEN
+         expiresIn: '24h'
      })
      res.json({
          ok: true,
