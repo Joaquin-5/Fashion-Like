@@ -28,8 +28,9 @@ export const startLogin = ({ email, password }) => {
   return async (dispatch) => {
     try {
       const resp = await fashionApi.post("/user/login", { email, password });
-      dispatch(login(resp.data.token));
+      dispatch(login(resp.data));
       localStorage.setItem("token", resp.data.token);
+      localStorage.setItem("data", JSON.stringify(resp.data.user));
     } catch (error) {
       Swal.fire({
         icon: "error",
