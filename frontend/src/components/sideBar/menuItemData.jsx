@@ -15,11 +15,6 @@ export const menuItemsAdminPanel = [
     icon: <ManageAccountsIcon color="info"/>,
     link: "/admin/users",
   },
-  {
-    text: "Gestionar Posteos",
-    icon: <DescriptionIcon color="info"/>,
-    link: '/admin/posts',
-  },
 ];
 export const menuItemsWithoutAuth = [
   {

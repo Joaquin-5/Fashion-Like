@@ -13,29 +13,33 @@ export const HomeScreen = () => {
 
   return (
     <div className="home-cards">
-      {!filter
-        ? posts.map((c) => (
-            <div key={c._id}>
-              <Cards
-                tileProp={c.title}
-                descriptionProp={c.description}
-                imageProp={c.image}
-                dateProp={c.createdAt}
-                idProp={c._id}
-              />
-            </div>
-          ))
-        : filter.map((c) => (
-            <div key={c._id}>
-              <Cards
-                tileProp={c.title}
-                descriptionProp={c.description}
-                imageProp={c.image}
-                dateProp={c.createdAt}
-                idProp={c._id}
-              />
-            </div>
-          ))}
+      {!filter ? (
+        posts.map((c) => (
+          <div key={c._id}>
+            <Cards
+              tileProp={c.title}
+              descriptionProp={c.description}
+              imageProp={c.image}
+              dateProp={c.createdAt}
+              idProp={c._id}
+            />
+          </div>
+        ))
+      ) : filter.length === 0 ? (
+        <h1>No se obstuvieron resultados</h1>
+      ) : (
+        filter.map((c) => (
+          <div key={c._id}>
+            <Cards
+              tileProp={c.title}
+              descriptionProp={c.description}
+              imageProp={c.image}
+              dateProp={c.createdAt}
+              idProp={c._id}
+            />
+          </div>
+        ))
+      )}
     </div>
   );
 };

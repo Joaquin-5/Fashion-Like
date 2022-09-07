@@ -11,12 +11,15 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Typography } from "@mui/material";
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { FormPost } from "../form/FormPost";
 import dayjs from "dayjs";
 import { CancelButton } from "../buttons/CancelButton";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startDeletePost } from "../../store/clothes";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
@@ -31,6 +34,7 @@ export const Cards = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -52,7 +56,7 @@ export const Cards = ({
           <>
             <CardHeader
               action={
-                isEdit ? (
+                user?.role === "ROLE_ADMIN" ? (
                   <IconButton
                     id="basic-button"
                     aria-label="settings"
@@ -64,9 +68,18 @@ export const Cards = ({
                     <MoreVertIcon />
                   </IconButton>
                 ) : (
-                  <IconButton onClick={handleSubmit} color="success">
-                    <CheckBoxIcon />
-                  </IconButton>
+                  // Botones like, dislike, neutral
+                  <>
+                    <IconButton>
+                      <ThumbUpIcon color="success" />
+                    </IconButton>
+                    <IconButton>
+                      <ThumbsUpDownIcon color="warning" />
+                    </IconButton>
+                    <IconButton>
+                      <ThumbDownIcon color="error" />
+                    </IconButton>
+                  </>
                 )
               }
               title={
@@ -121,6 +134,11 @@ export const Cards = ({
           "aria-labelledby": "basic-button",
         }}
       >
+        <MenuItem>
+          <Button startIcon={<QueryStatsIcon />} color="primary">
+            Estadisticas del post
+          </Button>
+        </MenuItem>
         <MenuItem onClick={handleClose}>
           <Button
             startIcon={<EditIcon />}

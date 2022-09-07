@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { Layout } from "../components/layout/Layout";
 import {
-  AdminPosts,
   HomeScreen,
   LoginScreen,
   NotFound,
@@ -25,7 +24,6 @@ export const Router = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomeScreen />} />
-            <Route path="/admin/posts" element={<AdminPosts />} />
             <Route path="error" element={<NotFound />} />
           </Route>
           <Route path="/auth" element={<AuthLayout />}>
