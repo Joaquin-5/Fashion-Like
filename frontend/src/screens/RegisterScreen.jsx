@@ -62,6 +62,12 @@ export const RegisterScreen = () => {
         [e.target.name]:
           "El nombre de usuario no puede contener caracteres especiales",
       });
+    } else if (e.target.value.match(/[0-9]/)) {
+      setHasError({ ...hasError, [e.target.name]: true });
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "El nombre de usuario no puede contener números",
+      });
     } else {
       setHasError({ ...hasError, [e.target.name]: false });
       setErrorMessage({ ...errorMessage, [e.target.name]: "" });
