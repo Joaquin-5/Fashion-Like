@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
-/* import { FormPost } from '../s/cards/FormPost'; */
 import { Cards } from "../components/cards/Cards";
-import NavBar from "../components/navbar/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { startLoadingClothes } from "../store/clothes";
 
-export const Home = () => {
+export const AdminPosts = () => {
   const dispatch = useDispatch();
   const { posts, filter } = useSelector((state) => state.clothes);
 

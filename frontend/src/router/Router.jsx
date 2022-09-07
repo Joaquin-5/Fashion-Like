@@ -3,17 +3,20 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { Layout } from "../components/layout/Layout";
-import { NotFound } from "../screens/404";
-import { Home } from "../screens/Home";
-import { LoginScreen } from "../screens/LoginScreen";
-import { RegisterScreen } from "../screens/RegisterScreen";
+import {
+  AdminPosts,
+  HomeScreen,
+  LoginScreen,
+  NotFound,
+  RegisterScreen,
+} from "../screens";
 import { checkAuthState } from "../store/auth";
 
 export const Router = () => {
   const dispatch = useDispatch();
   // Renew token
   useEffect(() => {
-    dispatch(checkAuthState())
+    dispatch(checkAuthState());
   }, []);
 
   return (
@@ -21,7 +24,8 @@ export const Router = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<HomeScreen />} />
+            <Route path="/admin/posts" element={<AdminPosts />} />
             <Route path="error" element={<NotFound />} />
           </Route>
           <Route path="/auth" element={<AuthLayout />}>

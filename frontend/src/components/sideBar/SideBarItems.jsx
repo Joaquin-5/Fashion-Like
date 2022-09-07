@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Divider,
@@ -6,16 +7,14 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { menuItemsAdminPanel, menuItemsWithoutAuth } from "./menuItemData";
 import { useDispatch, useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import { menuItemsAdminPanel, menuItemsWithoutAuth } from "./menuItemData";
 import { startLogOut } from "../../store/auth/thunk";
 import { useNavigate } from "react-router-dom";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { textAlign } from "@mui/system";
 
 export const SideBarItems = () => {
   const navigate = useNavigate();
@@ -31,9 +30,15 @@ export const SideBarItems = () => {
           <List>
             <ListItem>
               <ListItemIcon>
-                <AccountCircleIcon color="success"/>
+                <AccountCircleIcon color="success" />
               </ListItemIcon>
-              <ListItemText primary={user.username} primaryTypographyProps={{fontSize: "1.2rem", fontWeight: "700"}}/>
+              <ListItemText
+                primary={user.username}
+                primaryTypographyProps={{
+                  fontSize: "1.2rem",
+                  fontWeight: "700",
+                }}
+              />
             </ListItem>
             {user.role === "ROLE_ADMIN" && (
               <>
@@ -44,7 +49,7 @@ export const SideBarItems = () => {
                   </ListItem>
                   {menuItemsAdminPanel.map((data, index) => (
                     <ListItem key={index} disablePadding>
-                      <ListItemButton>
+                      <ListItemButton onClick={() => navigate(data.link)}>
                         <ListItemIcon>{data.icon}</ListItemIcon>
                         <ListItemText primary={data.text} />
                       </ListItemButton>
@@ -55,9 +60,9 @@ export const SideBarItems = () => {
             )}
             <Divider />
             <ListItem disablePadding>
-              <ListItemButton onClick={() => dispatch(startLogOut())} >
+              <ListItemButton onClick={() => dispatch(startLogOut())}>
                 <ListItemIcon>
-                  <LogoutIcon color="error"/>
+                  <LogoutIcon color="error" />
                 </ListItemIcon>
                 <ListItemText primary="Cerrar sesión" />
               </ListItemButton>
