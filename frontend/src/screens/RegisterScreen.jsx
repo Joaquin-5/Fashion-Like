@@ -207,7 +207,11 @@ export const RegisterScreen = () => {
             hasError.username ||
             hasError.email ||
             hasError.password ||
-            hasError.password2
+            hasError.password2 ||
+            username.length < 3 ||
+            email.length < 3 ||
+            password.length < 6 ||
+            password2.length < 6
           }
         >
           Crear Cuenta
