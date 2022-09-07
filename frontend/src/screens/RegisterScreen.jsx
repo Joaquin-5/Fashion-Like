@@ -139,7 +139,7 @@ export const RegisterScreen = () => {
   return (
     <div className="card-auth">
       <BackButton to="/" />
-      <h1 style={{ textAlign: "center" }}>Registro</h1>
+      <h1 style={{ textAlign: "center" }}>Crear Cuenta</h1>
       <form onSubmit={handleSubmit}>
         <TextField
           id="username"
