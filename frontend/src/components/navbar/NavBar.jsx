@@ -5,10 +5,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import { ModalComponent } from "../modal/Modal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { startSearchPost } from "../../store/clothes";
 import SideBar from "../sideBar/SideBar";
 import { openSideBar } from "../../store/sideBar";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -60,6 +61,8 @@ function NavBar() {
   const handleSearch = (e) => {
     dispatch(startSearchPost(e.target.value));
   };
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -84,7 +87,8 @@ function NavBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, cursor: "pointer" }}
+            onClick={() => navigate("/")}
           >
             Fashion Like
           </Typography>
@@ -98,7 +102,7 @@ function NavBar() {
               onChange={handleSearch}
             />
           </Search>
-          <ModalComponent />
+          { user?.role === "ROLE_ADMIN" && (<ModalComponent />)}
         </Toolbar>
       </AppBar>
       <SideBar />

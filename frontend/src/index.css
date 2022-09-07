@@ -47,3 +47,18 @@
   gap: 2rem;
   padding: 10px 30px;
 }
+
+.home-cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+}
+
+.home-cards > div {
+  width: 500px;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}

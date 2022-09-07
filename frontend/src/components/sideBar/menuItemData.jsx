@@ -2,8 +2,14 @@ import React from "react";
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from '@mui/icons-material/Home';
 
 export const menuItemsAdminPanel = [
+  {
+    text: "Inicio",
+    icon: <HomeIcon color="info" />,
+    link: "/"
+  },
   {
     text: "Gestionar usuarios",
     icon: <ManageAccountsIcon color="info"/>,
