@@ -26,7 +26,7 @@ export const HomeScreen = () => {
           </div>
         ))
       ) : filter.length === 0 ? (
-        <h1>No se obstuvieron resultados</h1>
+        <h1>No se obtuvieron resultados</h1>
       ) : (
         filter.map((c) => (
           <div key={c._id}>
