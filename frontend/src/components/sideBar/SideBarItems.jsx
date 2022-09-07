@@ -30,7 +30,7 @@ export const SideBarItems = () => {
           <List>
             <ListItem>
               <ListItemIcon>
-                <AccountCircleIcon color="success" />
+                <AccountCircleIcon color="action" />
               </ListItemIcon>
               <ListItemText
                 primary={user.username}

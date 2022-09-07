@@ -20,6 +20,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import { useNavigate } from "react-router-dom";
 
 import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
@@ -35,6 +36,7 @@ export const Cards = ({
   const [isEdit, setIsEdit] = useState(true);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -48,6 +50,12 @@ export const Cards = ({
     setAnchorEl(null);
     dispatch(startDeletePost(id));
   };
+
+  const isLogged = () => {
+    if (user === null) {
+      navigate("/auth/login");
+    }
+  }
 
   return (
     <>
@@ -70,13 +78,13 @@ export const Cards = ({
                 ) : (
                   // Botones like, dislike, neutral
                   <>
-                    <IconButton>
+                    <IconButton onClick={isLogged}>
                       <ThumbUpIcon color="success" />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={isLogged}>
                       <ThumbsUpDownIcon color="warning" />
                     </IconButton>
-                    <IconButton>
+                    <IconButton onClick={isLogged}>
                       <ThumbDownIcon color="error" />
                     </IconButton>
                   </>
