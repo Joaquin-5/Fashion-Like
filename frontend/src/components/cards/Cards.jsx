@@ -10,7 +10,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Typography } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import { FormPost } from "../form/FormPost";
 import dayjs from "dayjs";
 import { CancelButton } from "../buttons/CancelButton";
@@ -21,6 +21,7 @@ import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
@@ -53,9 +54,22 @@ export const Cards = ({
 
   const isLogged = () => {
     if (user === null) {
-      navigate("/auth/login");
+      Swal.fire({
+        icon: "warning",
+        title: "No estás logueado",
+        text: "Por favor inicia sesión",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Iniciar sesión",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/auth/login");
+        }
+      })
     }
-  }
+  };
 
   return (
     <>
@@ -78,15 +92,21 @@ export const Cards = ({
                 ) : (
                   // Botones like, dislike, neutral
                   <>
-                    <IconButton onClick={isLogged}>
-                      <ThumbUpIcon color="success" />
-                    </IconButton>
-                    <IconButton onClick={isLogged}>
-                      <ThumbsUpDownIcon color="warning" />
-                    </IconButton>
-                    <IconButton onClick={isLogged}>
-                      <ThumbDownIcon color="error" />
-                    </IconButton>
+                    <Tooltip title="Like">
+                      <IconButton onClick={isLogged}>
+                        <ThumbUpIcon color="success" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Neutral">
+                      <IconButton onClick={isLogged}>
+                        <ThumbsUpDownIcon color="warning" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Deslike">
+                      <IconButton onClick={isLogged}>
+                        <ThumbDownIcon color="error" />
+                      </IconButton>
+                    </Tooltip>
                   </>
                 )
               }
