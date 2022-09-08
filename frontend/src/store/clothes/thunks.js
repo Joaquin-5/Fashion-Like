@@ -6,6 +6,7 @@ import {
   setClothes,
   deletePost,
   searchPost,
+  orderByDate,
 } from "./clothesSlice";
 
 export const startLoadingClothes = () => {
@@ -72,7 +73,7 @@ export const startDeletePost = (id) => {
       if (result.isConfirmed) {
         fashionApi
           .delete("/clothes/" + id)
-          .then((res) =>
+          .then(() =>
             Swal.fire(
               "Eliminado!",
               "La publicación ha sido eliminada.",
@@ -94,3 +95,20 @@ export const startSearchPost = (word) => {
     dispatch(searchPost(word));
   };
 };
+
+
+// Order can be "asc" or "desc"
+export const startOrderByDate = (order) => {
+  return async (dispatch, getState) => {
+    const state = getState();
+    const posts = [...state.clothes.posts];
+    const date = [...posts].sort((a, b) =>
+      a.createdAt > b.createdAt ? -1 : 1
+    );
+    if (order === "asc") {
+      dispatch(orderByDate(date));
+    } else {
+      dispatch(orderByDate(date.reverse()));
+    }
+  };
+}

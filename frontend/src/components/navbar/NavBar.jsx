@@ -87,12 +87,13 @@ function NavBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" }, cursor: "pointer" }}
+            sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
             onClick={() => navigate("/")}
           >
             Fashion Like
           </Typography>
-          <Search>
+          <div style={{flex: 1}} />
+          <Search sx={{marginLeft: 'auto'}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
