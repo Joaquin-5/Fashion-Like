@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
 import "./card.style.css";
 import Card from "@mui/material/Card";
@@ -22,7 +23,11 @@ import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
+import ThumbDownAltOutlinedIcon from "@mui/icons-material/ThumbDownAltOutlined";
+import ThumbsUpDownOutlinedIcon from "@mui/icons-material/ThumbsUpDownOutlined";
 
+// eslint-disable-next-line no-unused-vars
 import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
 
@@ -35,6 +40,11 @@ export const Cards = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
+  const [like, setLike] = useState({
+    like: false,
+    neutral: false,
+    dislike: false,
+  });
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -52,9 +62,9 @@ export const Cards = ({
     dispatch(startDeletePost(id));
   };
 
-  const isLogged = () => {
+  const isLogged = (action) => {
     if (user === null) {
-      Swal.fire({
+      return Swal.fire({
         icon: "warning",
         title: "No estás logueado",
         text: "Por favor inicia sesión",
@@ -67,7 +77,37 @@ export const Cards = ({
         if (result.isConfirmed) {
           navigate("/auth/login");
         }
-      })
+      });
+    }
+    if (action === "like") {
+      setLike({
+        like: true,
+        neutral: false,
+        dislike: false,
+      });
+      if (like.like) {
+        setLike({ ...like, like: false });
+      }
+    }
+    if (action === "neutral") {
+      setLike({
+        like: false,
+        neutral: true,
+        dislike: false,
+      });
+      if (like.neutral) {
+        setLike({ ...like, neutral: false });
+      }
+    }
+    if (action === "dislike") {
+      setLike({
+        like: false,
+        neutral: false,
+        dislike: true,
+      });
+      if (like.dislike) {
+        setLike({ ...like, dislike: false });
+      }
     }
   };
 
@@ -93,18 +133,30 @@ export const Cards = ({
                   // Botones like, dislike, neutral
                   <>
                     <Tooltip title="Like">
-                      <IconButton onClick={isLogged}>
-                        <ThumbUpIcon color="success" />
+                      <IconButton onClick={() => isLogged("like")}>
+                        {like.like ? (
+                          <ThumbUpIcon color="success" />
+                        ) : (
+                          <ThumbUpAltOutlinedIcon />
+                        )}
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Neutral">
-                      <IconButton onClick={isLogged}>
-                        <ThumbsUpDownIcon color="warning" />
+                      <IconButton onClick={() => isLogged("neutral")}>
+                        {like.neutral ? (
+                          <ThumbsUpDownIcon color="warning" />
+                        ) : (
+                          <ThumbsUpDownOutlinedIcon />
+                        )}
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Deslike">
-                      <IconButton onClick={isLogged}>
-                        <ThumbDownIcon color="error" />
+                    <Tooltip title="Dislike">
+                      <IconButton onClick={() => isLogged("dislike")}>
+                        {like.dislike ? (
+                          <ThumbDownIcon color="error" />
+                        ) : (
+                          <ThumbDownAltOutlinedIcon />
+                        )}
                       </IconButton>
                     </Tooltip>
                   </>
