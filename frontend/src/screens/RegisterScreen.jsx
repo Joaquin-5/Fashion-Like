@@ -2,12 +2,14 @@ import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Button, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from "@mui/material";
 import { Typography } from "@mui/material";
 
 import { BackButton } from "../components/buttons/BackButton";
 import { useCustomForm } from "../hooks";
 import { startRegister } from "../store/auth";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
 
 export const RegisterScreen = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ export const RegisterScreen = () => {
     password2: "",
   });
   const { username, email, password, password2 } = formData;
+  const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (
@@ -170,7 +173,7 @@ export const RegisterScreen = () => {
           error={hasError.email}
           helperText={errorMessage.email}
         />
-        <TextField
+        {/*         <TextField
           id="password"
           name="password"
           type="password"
@@ -184,10 +187,43 @@ export const RegisterScreen = () => {
           onBlur={passwordValidation}
           error={hasError.password}
           helperText={errorMessage.password}
-        />
+        /> */}
+        <FormControl variant="outlined" error={hasError.password} required>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Contraseña
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={password}
+            onChange={(e) => {
+              handleInputChange(e);
+              passwordValidation(e);
+            }}
+            onBlur={passwordValidation}
+            autoComplete="off"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  edge="end"
+                >
+                  {!showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Contraseña"
+          />
+          {hasError.password && (
+            <FormHelperText>{errorMessage.password}</FormHelperText>
+          )}
+        </FormControl>
         <TextField
           id="repeat-password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           label="Repetir contraseña"
           variant="outlined"
           name="password2"
@@ -211,7 +247,8 @@ export const RegisterScreen = () => {
             username.length < 3 ||
             email.length < 3 ||
             password.length < 6 ||
-            password2.length < 6
+            password2.length < 6 ||
+            !isValidEmail(email)
           }
         >
           Crear Cuenta

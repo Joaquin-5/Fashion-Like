@@ -2,13 +2,22 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useCustomForm } from "../hooks";
-import { Typography } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { BackButton } from "../components/buttons/BackButton";
 import { startLogin } from "../store/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export const LoginScreen = () => {
   const [formData, handleInputChange] = useCustomForm({
@@ -19,6 +28,7 @@ export const LoginScreen = () => {
   const [errorMessageEmail, setErrorMessageEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -82,8 +92,8 @@ export const LoginScreen = () => {
           helperText={errorEmail ? errorMessageEmail : null}
           required
         />
-        <TextField
-          type="password"
+        {/*<TextField
+          type={showPassword ? "text" : "password"}
           name="password"
           label="Contraseña"
           variant="outlined"
@@ -100,7 +110,54 @@ export const LoginScreen = () => {
           autoComplete="off"
           required
         />
-        <Button type="submit" variant="contained" color="info">
+        <Button onClick={() => setShowPassword(!showPassword)}>Mostrar</Button> */}
+        <FormControl variant="outlined" error={errorPassword} required>
+          <InputLabel htmlFor="outlined-adornment-password">
+            Contraseña
+          </InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={password}
+            onChange={(e) => {
+              handleInputChange(e);
+              validationPassword(e.target.value);
+            }}
+            onBlur={(e) => {
+              validationPassword(e.target.value);
+            }}
+            autoComplete="off"
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={() => setShowPassword(!showPassword)}
+                  onMouseDown={(e) => e.preventDefault()}
+                  edge="end"
+                >
+                  {!showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Contraseña"
+          />
+          {errorPassword && (
+            <FormHelperText>{errorMessagePassword}</FormHelperText>
+          )}
+        </FormControl>
+        <Button
+          type="submit"
+          variant="contained"
+          color="info"
+          disabled={
+            errorEmail.email ||
+            errorPassword.password ||
+            email.length < 3 ||
+            password.length < 6 ||
+            !isValidEmail(email)
+          }
+        >
           Iniciar Sesión
         </Button>
         <Typography>
