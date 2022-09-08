@@ -49,6 +49,7 @@ export const startLogOut = () => {
   return (dispatch) => {
     dispatch(logOut());
     localStorage.clear();
+    window.location.reload();
   }
 }
 
