@@ -188,7 +188,7 @@ export const Cards = ({
             />
             {descriptionProp && <Divider variant="middle" sx={{borderBottomWidth: 2, marginTop: "1.5em"}}/>}
             <CardContent>
-              <Typography variant="body2" color="InfoText">
+              <Typography variant="body2" color="InfoText" sx={{fontSize: "1em"}}>
                 {descriptionProp}
               </Typography>
             </CardContent>{" "}
