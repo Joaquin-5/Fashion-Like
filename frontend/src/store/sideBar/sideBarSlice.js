@@ -1,22 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    open: false
+  open: false,
+  isLoading: false,
 };
 
 export const sideBarSlice = createSlice({
   name: "sideBar",
   initialState,
   reducers: {
-    openSideBar: (state, action) => {
-        state.open = true
+    openSideBar: (state) => {
+      state.open = true;
     },
-    closeSideBar: (state, open) => {
-        state.open = false
-    }
+    closeSideBar: (state) => {
+      state.open = false;
+    },
+    changeLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { openSideBar, closeSideBar } =
-sideBarSlice.actions;
+export const { openSideBar, closeSideBar, changeLoading } = sideBarSlice.actions;

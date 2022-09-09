@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import { fashionApi } from "../../api/fashionApi";
+import { changeLoading } from "../sideBar/sideBarSlice";
 import {
   editPost,
   newPost,
@@ -11,6 +12,7 @@ import {
 
 export const startLoadingClothes = () => {
   return async (dispatch) => {
+    dispatch(changeLoading(true));
     const resp = await fashionApi.get("/clothes/get");
     if (!resp.data) {
       return;
@@ -19,11 +21,13 @@ export const startLoadingClothes = () => {
       a.createdAt > b.createdAt ? -1 : 1
     );
     dispatch(setClothes(date || []));
+    dispatch(changeLoading(false));
   };
 };
 
 export const startAddNewPost = ({ title, description, image }) => {
   return async (dispatch) => {
+    dispatch(changeLoading(true));
     const resp = await fashionApi.post(
       "/clothes/add",
       { title, description, file: image },
@@ -37,11 +41,13 @@ export const startAddNewPost = ({ title, description, image }) => {
       timer: 1500,
     });
     dispatch(newPost(resp.data.clothes));
+    dispatch(changeLoading(false));
   };
 };
 
 export const startEditPost = ({ id, title, description, image }) => {
   return async (dispatch) => {
+    dispatch(changeLoading(true));
     const res = await fashionApi.put(
       "/clothes/" + id,
       { title, description, file: image },
@@ -55,11 +61,13 @@ export const startEditPost = ({ id, title, description, image }) => {
       timer: 1500,
     });
     dispatch(editPost(res.data.updatePost));
+    dispatch(changeLoading(false));
   };
 };
 
 export const startDeletePost = (id) => {
   return async (dispatch) => {
+    dispatch(changeLoading(true));
     Swal.fire({
       title: "¿Estás seguro que querés eliminar esta publicación?",
       text: "No se va a poder recuperar esta publicación!",
@@ -87,6 +95,8 @@ export const startDeletePost = (id) => {
           );
       }
     });
+  dispatch(changeLoading(false));
+
   };
 };
 

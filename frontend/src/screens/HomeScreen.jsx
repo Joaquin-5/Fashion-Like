@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, LinearProgress, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Cards } from "../components/cards/Cards";
@@ -9,6 +9,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 export const HomeScreen = () => {
   const dispatch = useDispatch();
   const { posts, filter } = useSelector((state) => state.clothes);
+  const { isLoading } = useSelector((state) => state.sideBar);
   const [orderBy, setOrderBy] = useState("asc");
 
   const handleOrderBy = () => {
@@ -25,46 +26,62 @@ export const HomeScreen = () => {
     dispatch(startLoadingClothes());
   }, [dispatch]);
 
+  if (isLoading) {
+    return (
+      <Stack sx={{ width: "100%", color: "grey.500" }} spacing={2}>
+        <LinearProgress color="secondary" />
+      </Stack>
+    );
+  }
+
   return (
-    <div className="home-cards" style={{ position: "relative" }}>
-      <div style={{ position: "absolute", left: "30px", top: "200px" }}>
+    <div className="home-container">
+      <div
+        style={{
+          position: "sticky",
+          top: "85px",
+        }}
+      >
         <Button
           endIcon={
             orderBy === "asc" ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />
           }
-          sx={{ display: "grid", placeSelf: "start", gridAutoFlow: "column" }}
+          sx={{ display: filter && filter.length === 0 ? "none" : "grid" , placeSelf: "start", gridAutoFlow: "column", backgroundColor: "#ffffff"}}
           onClick={handleOrderBy}
+          color="inherit"
         >
           Ordernar
         </Button>
       </div>
-      {!filter ? (
-        posts.map((c) => (
-          <div key={c._id}>
-            <Cards
-              tileProp={c.title}
-              descriptionProp={c.description}
-              imageProp={c.image}
-              dateProp={c.createdAt}
-              idProp={c._id}
-            />
-          </div>
-        ))
-      ) : filter.length === 0 ? (
-        <h1>No se obtuvieron resultados</h1>
-      ) : (
-        filter.map((c) => (
-          <div key={c._id}>
-            <Cards
-              tileProp={c.title}
-              descriptionProp={c.description}
-              imageProp={c.image}
-              dateProp={c.createdAt}
-              idProp={c._id}
-            />
-          </div>
-        ))
-      )}
+      <div className="home-cards" style={{ position: "relative" }}>
+        {!filter ? (
+          posts.map((c) => (
+            <div key={c._id}>
+              <Cards
+                tileProp={c.title}
+                descriptionProp={c.description}
+                imageProp={c.image}
+                dateProp={c.createdAt}
+                idProp={c._id}
+              />
+            </div>
+          ))
+        ) : filter.length === 0 ? (
+          <h1>No se obtuvieron resultados</h1>
+        ) : (
+          filter.map((c) => (
+            <div key={c._id}>
+              <Cards
+                tileProp={c.title}
+                descriptionProp={c.description}
+                imageProp={c.image}
+                dateProp={c.createdAt}
+                idProp={c._id}
+              />
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };

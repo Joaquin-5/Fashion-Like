@@ -68,7 +68,6 @@ function NavBar() {
     <>
       <AppBar
         position="static"
-        sx={{ marginBottom: "2.2rem" }}
         color="transparent"
         elevation={1}
       >
@@ -87,7 +86,7 @@ function NavBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
+            sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer", fontFamily: "Lato, sans-serif", fontSize: "1.45rem" }}
             onClick={() => navigate("/")}
           >
             Fashion Like

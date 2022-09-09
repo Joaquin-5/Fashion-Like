@@ -65,8 +65,8 @@ export const Cards = ({
   const isLogged = (action) => {
     if (user === null) {
       return Swal.fire({
-        icon: "warning",
-        title: "No estás logueado",
+        icon: "error",
+        title: "No puedes realizar esta acción",
         text: "Por favor inicia sesión",
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",

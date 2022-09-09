@@ -1,9 +1,10 @@
 import { fashionApi } from "../../api/fashionApi";
 import Swal from "sweetalert2";
 import { login, logOut } from "./AuthSlice";
+import { changeLoading, closeSideBar } from "../sideBar/sideBarSlice";
 
 export const startRegister = (user) => {
-  return async (dispatch) => {
+  return async () => {
     try {
       const resp = await fashionApi.post("/user/register", user);
       Swal.fire({
@@ -47,9 +48,12 @@ export const startLogin = ({ email, password }) => {
 
 export const startLogOut = () => {
   return (dispatch) => {
+    dispatch(changeLoading(true));
     dispatch(logOut());
+    dispatch(closeSideBar());
     localStorage.clear();
-    window.location.reload();
+    dispatch(changeLoading(false));
+    // window.location.reload();
   }
 }
 
