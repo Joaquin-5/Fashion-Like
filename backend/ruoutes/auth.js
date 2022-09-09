@@ -147,6 +147,7 @@ router.post("/login", async (req, res) => {
         email: usuarioDB.eamil,
         emailVerified: usuarioDB.emailVerified,
         role: usuarioDB.role,
+        id: usuarioDB._id,
       },
       process.env.SEED_AUTENTICACION,
       {
@@ -261,6 +262,7 @@ router.get("/check-auth/:token", async (req, res) => {
             username: userDB.username,
             emailVerified: userDB.emailVerified,
             role: userDB.role,
+            id: userDB._id,
           },
           process.env.SEED_AUTENTICACION,
           {

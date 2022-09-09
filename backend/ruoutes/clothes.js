@@ -7,6 +7,7 @@ const cloudinary = require("cloudinary").v2;
 cloudinary.config(process.env.CLOUDINARY_URL || "");
 
 const mongoose = require("mongoose");
+const { decodeToken } = require("../middleware/check-auth");
 const schema = mongoose.Schema;
 
 const clothes = new schema(
@@ -14,6 +15,10 @@ const clothes = new schema(
     title: { type: String, required: true },
     description: String,
     image: String,
+    // like, dislike, neutral - per user id
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    neutrals: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -21,9 +26,9 @@ const clothes = new schema(
 const ClothesModel = mongoose.model("clothes", clothes);
 module.exports = router;
 
-router.get('/example',(rq, res)=>{
-    res.end('hi')
-})
+router.get("/example", (rq, res) => {
+  res.end("hi");
+});
 
 router.post("/add", async (req, res) => {
   const form = new formidable.IncomingForm();
@@ -146,6 +151,107 @@ router.delete("/:id", async (req, res) => {
     await ClothesModel.findByIdAndDelete(id);
 
     return res.status(200).json({ msg: "La ropa fue eliminada correctamente" });
+  } catch (error) {
+    return res.status(500).json({ msg: "Error check server logs", error });
+  }
+});
+
+router.put("/like/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(400).json({ ok: false, msg: "No es un id valido" });
+  const clothes = await ClothesModel.findById(id);
+  if (!clothes) {
+    return res.status(404).json({ msg: `No existe esa ropa con el id: ${id}` });
+  }
+  const userFromToken = await decodeToken(req.headers.authorization);
+  if (!userFromToken)
+    return res.status(401).json({ msg: "No estas autorizado" });
+  try {
+    if (clothes.likes.includes(userFromToken.id)) {
+      clothes.likes.pull(userFromToken.id);
+      await clothes.save();
+      return res.status(200).json({
+        msg: "Ya no le diste dislike a esta ropa",
+        clothes,
+      });
+    }
+    clothes.likes.push(userFromToken.id);
+    clothes.dislikes.pull(userFromToken.id);
+    clothes.neutrals.pull(userFromToken.id);
+    await clothes.save();
+    return res.status(200).json({
+      msg: "Le diste like a esta ropa",
+      clothes,
+    });
+  } catch (error) {
+    return res.status(500).json({ msg: "Error check server logs", error });
+  }
+});
+
+router.put("/dislike/:id", async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(400).json({ ok: false, msg: "No es un id valido" });
+  const clothes = await ClothesModel.findById(id);
+  if (!clothes) {
+    return res.status(404).json({ msg: `No existe esa ropa con el id: ${id}` });
+  }
+  const userFromToken = await decodeToken(req.headers.authorization);
+  if (!userFromToken)
+    return res.status(401).json({ msg: "No estas autorizado" });
+  try {
+    if (clothes.dislikes.includes(userFromToken.id)) {
+      clothes.dislikes.pull(userFromToken.id);
+      await clothes.save();
+      return res.status(200).json({
+        msg: "Ya no le diste dislike a esta ropa",
+        clothes,
+      });
+    }
+    clothes.dislikes.push(userFromToken.id);
+    clothes.likes.pull(userFromToken.id);
+    clothes.neutrals.pull(userFromToken.id);
+    await clothes.save();
+    return res.status(200).json({
+      msg: "Le diste dislike a esta ropa",
+      clothes,
+    });
+  } catch (error) {
+    return res.status(500).json({ msg: "Error check server logs", error });
+  }
+});
+
+router.put("/neutral/:id", async (req, res) => {
+  // get user id from token
+
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(400).json({ ok: false, msg: "No es un id valido" });
+  const userFromToken = await decodeToken(req.headers.authorization);
+  if (!userFromToken)
+    return res.status(401).json({ msg: "No estas autorizado" });
+  const clothes = await ClothesModel.findById(id);
+  if (!clothes) {
+    return res.status(404).json({ msg: `No existe esa ropa con el id: ${id}` });
+  }
+  try {
+    if (clothes.neutrals.includes(userFromToken.id)) {
+      clothes.neutrals.pull(userFromToken.id);
+      await clothes.save();
+      return res.status(200).json({
+        msg: "Ya no le diste dislike a esta ropa",
+        clothes,
+      });
+    }
+    clothes.neutrals.push(userFromToken.id);
+    clothes.likes.pull(userFromToken.id);
+    clothes.dislikes.pull(userFromToken.id);
+    await clothes.save();
+    return res.status(200).json({
+      msg: "Le diste neutral a esta ropa",
+      clothes,
+    });
   } catch (error) {
     return res.status(500).json({ msg: "Error check server logs", error });
   }
