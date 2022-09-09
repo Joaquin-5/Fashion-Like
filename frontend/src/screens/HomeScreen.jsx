@@ -64,11 +64,7 @@ export const HomeScreen = () => {
           posts.map((c) => (
             <div key={c._id}>
               <Cards
-                tileProp={c.title}
-                descriptionProp={c.description}
-                imageProp={c.image}
-                dateProp={c.createdAt}
-                idProp={c._id}
+                {...c}
               />
             </div>
           ))
@@ -78,11 +74,7 @@ export const HomeScreen = () => {
           filter.map((c) => (
             <div key={c._id}>
               <Cards
-                tileProp={c.title}
-                descriptionProp={c.description}
-                imageProp={c.image}
-                dateProp={c.createdAt}
-                idProp={c._id}
+                {...c}
               />
             </div>
           ))

@@ -17,7 +17,7 @@ export const startLoadingClothes = () => {
     if (!resp.data) {
       return;
     }
-    const date = [...resp.data].sort((a, b) =>
+    const date = [...resp.data.clothes].sort((a, b) =>
       a.createdAt > b.createdAt ? -1 : 1
     );
     dispatch(setClothes(date || []));
@@ -95,8 +95,7 @@ export const startDeletePost = (id) => {
           );
       }
     });
-  dispatch(changeLoading(false));
-
+    dispatch(changeLoading(false));
   };
 };
 
@@ -105,7 +104,6 @@ export const startSearchPost = (word) => {
     dispatch(searchPost(word));
   };
 };
-
 
 // Order can be "asc" or "desc"
 export const startOrderByDate = (order) => {
@@ -121,4 +119,21 @@ export const startOrderByDate = (order) => {
       dispatch(orderByDate(date.reverse()));
     }
   };
-}
+};
+
+export const actionLike = (action, clothesId) => {
+  return async (dispatch) => {
+    if (action === "dislike") {
+      try {
+        const clothesD = await fashionApi.put("clothes/dislike/" + clothesId, null, {
+          headers: {
+            Authorization: localStorage.getItem("token") || "",
+          },
+        });
+        dispatch(editPost(clothesD.data.clothes));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+};

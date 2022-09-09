@@ -277,6 +277,7 @@ router.get("/check-auth/:token", async (req, res) => {
             email: userDB.eamil,
             emailVerified: userDB.emailVerified,
             role: userDB.role,
+            id: userDB._id,
           },
           token,
         });

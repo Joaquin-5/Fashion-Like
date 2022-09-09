@@ -16,7 +16,7 @@ import { FormPost } from "../form/FormPost";
 import dayjs from "dayjs";
 import { CancelButton } from "../buttons/CancelButton";
 import { useDispatch, useSelector } from "react-redux";
-import { startDeletePost } from "../../store/clothes";
+import { actionLike, startDeletePost } from "../../store/clothes";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
@@ -32,11 +32,14 @@ import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
 
 export const Cards = ({
-  tileProp,
-  descriptionProp,
-  imageProp,
-  dateProp,
-  idProp,
+  _id, 
+  title, 
+  description,
+  image,
+  createdAt,
+  neutrals,
+  likes, 
+  dislikes
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
@@ -62,7 +65,7 @@ export const Cards = ({
     dispatch(startDeletePost(id));
   };
 
-  const isLogged = (action) => {
+  const isLogged = (action, clothesId) => {
     if (user === null) {
       return Swal.fire({
         icon: "error",
@@ -105,6 +108,7 @@ export const Cards = ({
         neutral: false,
         dislike: true,
       });
+      dispatch(actionLike(action, clothesId));
       if (like.dislike) {
         setLike({ ...like, dislike: false });
       }
@@ -151,8 +155,8 @@ export const Cards = ({
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Dislike">
-                      <IconButton onClick={() => isLogged("dislike")}>
-                        {like.dislike ? (
+                      <IconButton onClick={() => isLogged("dislike", _id)}>
+                        {user && dislikes.includes(user.id) ? (
                           <ThumbDownIcon color="error" />
                         ) : (
                           <ThumbDownAltOutlinedIcon />
@@ -164,7 +168,7 @@ export const Cards = ({
               }
               title={
                 <Typography fontWeight="700" fontSize={"1.2rem"}>
-                  {tileProp}
+                  {title}
                 </Typography>
               }
               subheader={
@@ -173,8 +177,8 @@ export const Cards = ({
                   sx={{ opacity: 0.8 }}
                   textTransform="capitalize"
                 >
-                  {dateProp
-                    ? dayjs(dateProp).format("dddd - DD/MM/YYYY")
+                  {createdAt
+                    ? dayjs(createdAt).format("dddd - DD/MM/YYYY")
                     : "September 14, 2016"}
                 </Typography>
               }
@@ -182,14 +186,14 @@ export const Cards = ({
             <CardMedia
               component="img"
               height="194"
-              image={imageProp}
+              image={image}
               sx={{ objectFit: "contain" }}
               alt="Paella dish"
             />
-            {descriptionProp && <Divider variant="middle" sx={{borderBottomWidth: 2, marginTop: "1.5em"}}/>}
+            {description && <Divider variant="middle" sx={{borderBottomWidth: 2, marginTop: "1.5em"}}/>}
             <CardContent>
               <Typography variant="body2" color="InfoText" sx={{fontSize: "1em"}}>
-                {descriptionProp}
+                {description}
               </Typography>
             </CardContent>{" "}
           </>
@@ -197,10 +201,10 @@ export const Cards = ({
           <div style={{ position: "relative", paddingTop: "3.5rem" }}>
             <CancelButton onClick={() => setIsEdit(true)} />
             <FormPost
-              idProp={idProp}
-              titleProp={tileProp}
-              descriptionProp={descriptionProp}
-              imageProp={imageProp}
+              idProp={_id}
+              titleProp={title}
+              description={description}
+              image={image}
               setIsEdit={setIsEdit}
             />
           </div>
@@ -229,7 +233,7 @@ export const Cards = ({
             Editar
           </Button>
         </MenuItem>
-        <MenuItem onClick={() => handleDelete(idProp)}>
+        <MenuItem onClick={() => handleDelete(_id)}>
           <Button startIcon={<DeleteIcon />} color="error">
             Eliminar
           </Button>

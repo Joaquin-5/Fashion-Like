@@ -62,10 +62,7 @@ router.post("/add", async (req, res) => {
 //gett
 
 router.get("/get", async (req, res) => {
-  const clothes = await ClothesModel.find()
-    .populate("likes")
-    .populate("dislikes")
-    .populate("neutrals");
+  const clothes = await ClothesModel.find();
   res.status(200).json({ clothes });
 });
 

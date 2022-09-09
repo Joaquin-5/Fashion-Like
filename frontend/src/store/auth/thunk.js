@@ -30,6 +30,7 @@ export const startLogin = ({ email, password }) => {
     try {
       const resp = await fashionApi.post("/user/login", { email, password });
       dispatch(login(resp.data));
+      console.log(resp.data);
       localStorage.setItem("token", resp.data.token);
       localStorage.setItem("data", JSON.stringify(resp.data.user));
       if (resp.data.ok) {
@@ -63,6 +64,7 @@ export const checkAuthState = () => {
     if (token) {
       try {
         const resp = await fashionApi.get(`/user/check-auth/${token}`);
+        console.log({resp});
         dispatch(login(resp.data));
       } catch (error) {
         localStorage.clear();
