@@ -174,7 +174,7 @@ export const Cards = ({
                   textTransform="capitalize"
                 >
                   {dateProp
-                    ? dayjs(dateProp).format("dddd MM/YYYY")
+                    ? dayjs(dateProp).format("dddd - DD/MM/YYYY")
                     : "September 14, 2016"}
                 </Typography>
               }
