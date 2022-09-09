@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Cards } from "../components/cards/Cards";
 import { startLoadingClothes, startOrderByDate } from "../store/clothes";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";  
 
 export const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -42,16 +42,22 @@ export const HomeScreen = () => {
           top: "85px",
         }}
       >
-        <Button
-          endIcon={
-            orderBy === "asc" ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />
-          }
-          sx={{ display: filter && filter.length === 0 ? "none" : "grid" , placeSelf: "start", gridAutoFlow: "column", backgroundColor: "#ffffff"}}
-          onClick={handleOrderBy}
-          color="inherit"
-        >
-          Ordernar
-        </Button>
+          <Button
+            endIcon={
+              orderBy === "asc" ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />
+            }
+            sx={{
+              display: filter && filter.length === 0 ? "none" : "grid",
+              placeSelf: "start",
+              gridAutoFlow: "column",
+              backgroundColor: "#ffffff",
+              boxShadow: "0px 1px 5px -2px rgba(0,0,0,0.46)",
+            }}
+            onClick={handleOrderBy}
+            color="inherit"
+          >
+            Ordernar
+          </Button>
       </div>
       <div className="home-cards" style={{ position: "relative" }}>
         {!filter ? (
