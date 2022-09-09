@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Tooltip, Typography } from "@mui/material";
+import { Button, Divider, Tooltip, Typography } from "@mui/material";
 import { FormPost } from "../form/FormPost";
 import dayjs from "dayjs";
 import { CancelButton } from "../buttons/CancelButton";
@@ -186,6 +186,7 @@ export const Cards = ({
               sx={{ objectFit: "contain" }}
               alt="Paella dish"
             />
+            {descriptionProp && <Divider variant="middle" sx={{borderBottomWidth: 2, marginTop: "1.5em"}}/>}
             <CardContent>
               <Typography variant="body2" color="InfoText">
                 {descriptionProp}
