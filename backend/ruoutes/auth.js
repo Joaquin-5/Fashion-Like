@@ -161,6 +161,7 @@ router.post("/login", async (req, res) => {
         email: usuarioDB.eamil,
         emailVerified: usuarioDB.emailVerified,
         role: usuarioDB.role,
+        id: usuarioDB._id,
       },
       token,
     });

@@ -16,9 +16,9 @@ const clothes = new schema(
     description: String,
     image: String,
     // like, dislike, neutral - per user id
-    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    neutrals: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    neutrals: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
   },
   { timestamps: true }
 );
@@ -61,14 +61,12 @@ router.post("/add", async (req, res) => {
 
 //gett
 
-router.get("/get", (req, res) => {
-  ClothesModel.find({}, function (docs, err) {
-    if (!err) {
-      res.send(docs);
-    } else {
-      res.send(err);
-    }
-  });
+router.get("/get", async (req, res) => {
+  const clothes = await ClothesModel.find()
+    .populate("likes")
+    .populate("dislikes")
+    .populate("neutrals");
+  res.status(200).json({ clothes });
 });
 
 const parseFiles = async (req) => {
