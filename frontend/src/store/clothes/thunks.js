@@ -123,9 +123,9 @@ export const startOrderByDate = (order) => {
 
 export const actionLike = (action, clothesId) => {
   return async (dispatch) => {
-    if (action === "dislike") {
+    if (action === "dislike" || action === "like" || action === "neutral") {
       try {
-        const clothesD = await fashionApi.put("clothes/dislike/" + clothesId, null, {
+        const clothesD = await fashionApi.put(`clothes/${action}/${clothesId}`, null, {
           headers: {
             Authorization: localStorage.getItem("token") || "",
           },

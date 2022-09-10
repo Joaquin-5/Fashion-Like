@@ -15,7 +15,6 @@ import { Link } from "react-router-dom";
 import { BackButton } from "../components/buttons/BackButton";
 import { startLogin } from "../store/auth";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -30,7 +29,6 @@ export const LoginScreen = () => {
   const [errorMessagePassword, setErrorMessagePassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { email, password } = formData;
 
@@ -92,25 +90,6 @@ export const LoginScreen = () => {
           helperText={errorEmail ? errorMessageEmail : null}
           required
         />
-        {/*<TextField
-          type={showPassword ? "text" : "password"}
-          name="password"
-          label="Contraseña"
-          variant="outlined"
-          value={password}
-          onChange={(e) => {
-            handleInputChange(e);
-            validationPassword(e.target.value);
-          }}
-          error={errorPassword}
-          onBlur={(e) => {
-            validationPassword(e.target.value);
-          }}
-          helperText={errorPassword ? errorMessagePassword : null}
-          autoComplete="off"
-          required
-        />
-        <Button onClick={() => setShowPassword(!showPassword)}>Mostrar</Button> */}
         <FormControl variant="outlined" error={errorPassword} required>
           <InputLabel htmlFor="outlined-adornment-password">
             Contraseña

@@ -6,7 +6,7 @@ export const UploadImageButton = ({
   handleImageUpload,
   imagen = false,
   url,
-  textButton = "Subir imagen"
+  textButton = "Subir imagen",
 }) => {
   return (
     <>
@@ -24,7 +24,7 @@ export const UploadImageButton = ({
             image={url}
             component="img"
             height="194"
-            sx={{ objectFit: "contain", zIndex: 0}}
+            sx={{ objectFit: "contain", zIndex: 0 }}
             alt="Paella dish"
           />
         </div>

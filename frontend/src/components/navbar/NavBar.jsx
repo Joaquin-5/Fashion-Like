@@ -66,11 +66,7 @@ function NavBar() {
 
   return (
     <>
-      <AppBar
-        position="static"
-        color="transparent"
-        elevation={1}
-      >
+      <AppBar position="static" color="transparent" elevation={1}>
         <Toolbar>
           <IconButton
             size="large"
@@ -86,13 +82,18 @@ function NavBar() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer", fontFamily: "Lato, sans-serif", fontSize: "1.45rem" }}
+            sx={{
+              display: { xs: "none", sm: "block" },
+              cursor: "pointer",
+              fontFamily: "Lato, sans-serif",
+              fontSize: "1.45rem",
+            }}
             onClick={() => navigate("/")}
           >
             Fashion Like
           </Typography>
-          <div style={{flex: 1}} />
-          <Search sx={{marginLeft: 'auto'}}>
+          <div style={{ flex: 1 }} />
+          <Search sx={{ marginLeft: "auto" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -102,7 +103,7 @@ function NavBar() {
               onChange={handleSearch}
             />
           </Search>
-          { user?.role === "ROLE_ADMIN" && (<ModalComponent />)}
+          {user?.role === "ROLE_ADMIN" && <ModalComponent />}
         </Toolbar>
       </AppBar>
       <SideBar />

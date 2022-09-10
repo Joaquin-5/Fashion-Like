@@ -6,7 +6,6 @@ export const CancelButton = ({ onClick, style }) => {
       onClick={onClick}
       className="cerrar-edicion"
       color="error"
-      variant="outlined"
       style={style}
     >
       X

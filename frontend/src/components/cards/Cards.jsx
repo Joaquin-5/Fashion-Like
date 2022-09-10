@@ -32,22 +32,17 @@ import { es } from "dayjs/locale/es"; // No quitar
 dayjs.locale("es");
 
 export const Cards = ({
-  _id, 
-  title, 
+  _id,
+  title,
   description,
   image,
   createdAt,
   neutrals,
-  likes, 
-  dislikes
+  likes,
+  dislikes,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
-  const [like, setLike] = useState({
-    like: false,
-    neutral: false,
-    dislike: false,
-  });
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -82,37 +77,7 @@ export const Cards = ({
         }
       });
     }
-    if (action === "like") {
-      setLike({
-        like: true,
-        neutral: false,
-        dislike: false,
-      });
-      if (like.like) {
-        setLike({ ...like, like: false });
-      }
-    }
-    if (action === "neutral") {
-      setLike({
-        like: false,
-        neutral: true,
-        dislike: false,
-      });
-      if (like.neutral) {
-        setLike({ ...like, neutral: false });
-      }
-    }
-    if (action === "dislike") {
-      setLike({
-        like: false,
-        neutral: false,
-        dislike: true,
-      });
-      dispatch(actionLike(action, clothesId));
-      if (like.dislike) {
-        setLike({ ...like, dislike: false });
-      }
-    }
+    dispatch(actionLike(action, clothesId));
   };
 
   return (
@@ -137,8 +102,8 @@ export const Cards = ({
                   // Botones like, dislike, neutral
                   <>
                     <Tooltip title="Like">
-                      <IconButton onClick={() => isLogged("like")}>
-                        {like.like ? (
+                      <IconButton onClick={() => isLogged("like", _id)}>
+                        {user && likes.includes(user.id) ? (
                           <ThumbUpIcon color="success" />
                         ) : (
                           <ThumbUpAltOutlinedIcon />
@@ -146,8 +111,8 @@ export const Cards = ({
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Neutral">
-                      <IconButton onClick={() => isLogged("neutral")}>
-                        {like.neutral ? (
+                      <IconButton onClick={() => isLogged("neutral", _id)}>
+                        {user && neutrals.includes(user.id) ? (
                           <ThumbsUpDownIcon color="warning" />
                         ) : (
                           <ThumbsUpDownOutlinedIcon />
@@ -190,9 +155,18 @@ export const Cards = ({
               sx={{ objectFit: "contain" }}
               alt="Paella dish"
             />
-            {description && <Divider variant="middle" sx={{borderBottomWidth: 2, marginTop: "1.5em"}}/>}
+            {description && (
+              <Divider
+                variant="middle"
+                sx={{ borderBottomWidth: 2, marginTop: "1.5em" }}
+              />
+            )}
             <CardContent>
-              <Typography variant="body2" color="InfoText" sx={{fontSize: "1em"}}>
+              <Typography
+                variant="body2"
+                color="InfoText"
+                sx={{ fontSize: "1em" }}
+              >
                 {description}
               </Typography>
             </CardContent>{" "}

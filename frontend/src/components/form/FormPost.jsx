@@ -60,7 +60,7 @@ export const FormPost = ({
         return;
       }
       // Editar
-      dispatch(startEditPost({id, title, description, image}));
+      dispatch(startEditPost({ id, title, description, image }));
       setIsEdit(true);
       return;
     }
@@ -123,29 +123,6 @@ export const FormPost = ({
           handleImageUpload={handleImageUpload}
           textButton={image ? "Cambiar imagen" : "Subir imagen"}
         />
-        {/* <TextField
-          id="filled-basic"
-          label="Género"
-          variant="outlined"
-          select
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          helperText="Elija el género"
-        >
-          {opciones.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Temporada"
-          variant="outlined"
-          // select
-          value={season}
-          onChange={(e) => setSeason(e.target.value)}
-          helperText="Elija la temporada"
-        /> */}
         <Button
           type="submit"
           variant="contained"

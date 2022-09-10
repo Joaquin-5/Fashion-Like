@@ -3,12 +3,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { Layout } from "../components/layout/Layout";
-import {
-  HomeScreen,
-  LoginScreen,
-  NotFound,
-  RegisterScreen,
-} from "../screens";
+import { HomeScreen, LoginScreen, NotFound, RegisterScreen } from "../screens";
 import { checkAuthState } from "../store/auth";
 
 export const Router = () => {
