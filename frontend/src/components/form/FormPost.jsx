@@ -25,6 +25,8 @@ export const FormPost = ({
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
 
+  console.log({descriptionProp, description});
+
   const validacion = (title) => {
     if (title.length < 2 || title.length > 30) {
       setError(true);

@@ -11,7 +11,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Button, Divider, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Modal,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { FormPost } from "../form/FormPost";
 import dayjs from "dayjs";
 import { CancelButton } from "../buttons/CancelButton";
@@ -43,6 +50,7 @@ export const Cards = ({
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isEdit, setIsEdit] = useState(true);
+  const [openStats, setOpenStats] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -177,7 +185,7 @@ export const Cards = ({
             <FormPost
               idProp={_id}
               titleProp={title}
-              description={description}
+              descriptionProp={description}
               image={image}
               setIsEdit={setIsEdit}
             />
@@ -194,7 +202,11 @@ export const Cards = ({
         }}
       >
         <MenuItem>
-          <Button startIcon={<QueryStatsIcon />} color="primary">
+          <Button
+            startIcon={<QueryStatsIcon />}
+            color="primary"
+            onClick={() => setOpenStats(true)}
+          >
             Estadisticas del post
           </Button>
         </MenuItem>
@@ -213,6 +225,47 @@ export const Cards = ({
           </Button>
         </MenuItem>
       </Menu>
+      <Modal
+        open={openStats}
+        onClose={() => setOpenStats(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <CancelButton
+            onClick={() => setOpenStats(false)}
+            style={{
+              top: "-17px",
+              right: "-17px",
+              background: "red",
+              color: "white",
+              borderRadius: "50%",
+              padding: "11px 14px",
+            }}
+          />
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Likes: {likes.length}
+          </Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Neutral: {neutrals.length}
+          </Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Dislikes: {dislikes.length}
+          </Typography>
+        </Box>
+      </Modal>
     </>
   );
 };

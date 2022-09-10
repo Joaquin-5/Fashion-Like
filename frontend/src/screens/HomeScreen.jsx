@@ -1,4 +1,4 @@
-import { Button, LinearProgress, Stack } from "@mui/material";
+import { Box, Button, LinearProgress, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Cards } from "../components/cards/Cards";
@@ -36,10 +36,10 @@ export const HomeScreen = () => {
 
   return (
     <div className="home-container">
-      <div
-        style={{
-          position: "sticky",
-          top: "85px",
+      <Box
+        sx={{
+          position: {xs: "relative", sm: "sticky"},
+          top: {xs: 0, sm: "85px"},
         }}
       >
         <Button
@@ -52,13 +52,14 @@ export const HomeScreen = () => {
             gridAutoFlow: "column",
             backgroundColor: "#ffffff",
             boxShadow: "0px 1px 5px -2px rgba(0,0,0,0.46)",
+            zIndex: 99
           }}
           onClick={handleOrderBy}
           color="inherit"
         >
           Ordernar
         </Button>
-      </div>
+      </Box>
       <div className="home-cards" style={{ position: "relative" }}>
         {!filter ? (
           posts.map((c) => (
