@@ -12,9 +12,13 @@ import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
+  Avatar,
   Box,
   Button,
   Divider,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Modal,
   Tooltip,
   Typography,
@@ -186,7 +190,7 @@ export const Cards = ({
               idProp={_id}
               titleProp={title}
               descriptionProp={description}
-              image={image}
+              imageProp={image}
               setIsEdit={setIsEdit}
             />
           </div>
@@ -237,7 +241,9 @@ export const Cards = ({
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: "90%",
+            maxWidth: 400,
+            maxHeight: "90vh",
             bgcolor: "background.paper",
             borderRadius: 2,
             boxShadow: 24,
@@ -255,15 +261,41 @@ export const Cards = ({
               padding: "11px 14px",
             }}
           />
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Likes: {likes.length}
-          </Typography>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Neutral: {neutrals.length}
-          </Typography>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Dislikes: {dislikes.length}
-          </Typography>
+          <h2 style={{ margin: 0 }}>Estadisticas del post </h2>
+          <Divider sx={{ borderBottomWidth: 2, marginBottom: "1rem" }} />
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <ThumbUpIcon color="success" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={"Likes: " + likes.length}
+              primaryTypographyProps={{ fontSize: "19px" }}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <ThumbsUpDownIcon color="warning" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={"Neutrals: " + neutrals.length}
+              primaryTypographyProps={{ fontSize: "19px" }}
+            />
+          </ListItem>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <ThumbDownIcon color="error" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={"Dislikes: " + dislikes.length}
+              primaryTypographyProps={{ fontSize: "19px" }}
+            />
+          </ListItem>
         </Box>
       </Modal>
     </>
