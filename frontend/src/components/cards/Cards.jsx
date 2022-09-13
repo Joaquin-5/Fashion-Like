@@ -92,6 +92,23 @@ export const Cards = ({
     dispatch(actionLike(action, clothesId));
   };
 
+  const dismissChanges = () => {
+    return Swal.fire({
+      icon: "warning",
+        title: "Descartar cambios",
+        text: "¿Estás seguro de que quieres descartar los cambios?",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        showCancelButton: true,
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsEdit(true);
+      }
+    })
+  }
+
   return (
     <>
       <Card sx={{ width: "100%", padding: isEdit ? "0" : "1rem" }}>
@@ -185,7 +202,7 @@ export const Cards = ({
           </>
         ) : (
           <div style={{ position: "relative", paddingTop: "3.5rem" }}>
-            <CancelButton onClick={() => setIsEdit(true)} />
+            <CancelButton onClick={dismissChanges} />
             <FormPost
               idProp={_id}
               titleProp={title}
