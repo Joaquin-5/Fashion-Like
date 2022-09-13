@@ -182,21 +182,6 @@ export const RegisterScreen = () => {
           error={hasError.email}
           helperText={errorMessage.email}
         />
-        {/*         <TextField
-          id="password"
-          name="password"
-          type="password"
-          label="Contraseña"
-          variant="outlined"
-          value={password}
-          onChange={(e) => {
-            handleInputChange(e);
-            passwordValidation(e);
-          }}
-          onBlur={passwordValidation}
-          error={hasError.password}
-          helperText={errorMessage.password}
-        /> */}
         <FormControl variant="outlined" error={hasError.password} required>
           <InputLabel htmlFor="outlined-adornment-password">
             Contraseña
