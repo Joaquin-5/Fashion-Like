@@ -43,7 +43,7 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-const ManageUsers = () => {
+export const ManageUsersScreen = () => {
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
@@ -90,5 +90,3 @@ const ManageUsers = () => {
     </TableContainer>
   );
 };
-
-export default ManageUsers;

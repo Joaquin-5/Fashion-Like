@@ -3,8 +3,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthLayout } from "../components/layout/AuthLayout";
 import { Layout } from "../components/layout/Layout";
-import ManageUsers from "../screens/ManageUsers";
-import { HomeScreen, LoginScreen, NotFound, RegisterScreen } from "../screens";
+import { HomeScreen, LoginScreen, NotFound, RegisterScreen, ManageUsersScreen } from "../screens";
 import { checkAuthState } from "../store/auth";
 
 export const Router = () => {
@@ -27,7 +26,7 @@ export const Router = () => {
             <Route path="login" element={<LoginScreen />} />
           </Route>
           <Route path="/admin" element={<Layout />}>
-            <Route path="manageUsers" element={<ManageUsers />} />
+            <Route path="manageUsers" element={<ManageUsersScreen />} />
           </Route>
         </Routes>
       </BrowserRouter>
