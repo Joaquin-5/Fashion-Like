@@ -12,7 +12,7 @@ export const menuItemsAdminPanel = [
   {
     text: "Gestionar usuarios",
     icon: <ManageAccountsIcon color="info" />,
-    link: "/admin/users",
+    link: "/admin/manageUsers",
   },
 ];
 export const menuItemsWithoutAuth = [
