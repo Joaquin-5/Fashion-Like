@@ -13,15 +13,18 @@ export const usersSlice = createSlice({
       }));
     },
     changeRole: (state, action) => {
-        state.users = state.users.map(u => {
-            if (u._id === action.payload._id) {
-                return {...action.payload, index: u.index}
-            } 
-            return u;
-        })
+      state.users = state.users.map((u) => {
+        if (u._id === action.payload._id) {
+          return { ...action.payload, index: u.index };
+        }
+        return u;
+      });
+    },
+    deleteUser: (state, action) => {
+      state.users = state.users.filter((u) => u._id !== action.payload);
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setUsers, changeRole } = usersSlice.actions;
+export const { setUsers, changeRole, deleteUser } = usersSlice.actions;

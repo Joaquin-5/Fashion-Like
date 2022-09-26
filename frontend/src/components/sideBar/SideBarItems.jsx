@@ -21,8 +21,6 @@ export const SideBarItems = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  console.log(user);
-
   return (
     <Box sx={{ width: 250 }} role="presentation">
       {user ? (
