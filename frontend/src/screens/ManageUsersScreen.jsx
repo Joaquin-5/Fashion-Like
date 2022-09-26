@@ -44,17 +44,20 @@ export const ManageUsersScreen = () => {
   };
 
   const columns = [
-    { field: "index", headerName: "ID", width: 150 },
+    { field: "index", headerName: "ID", width: 90 },
     {
       field: "username",
       headerName: "Nombre de usuario",
-      width: 250,
+      minWidth: 140,
+      flex: 1,
     },
     {
       field: "email",
       headerName: "Email",
       width: 250,
       sortable: false,
+      minWidth: 260,
+      flex: 1,
     },
     {
       field: "role",
