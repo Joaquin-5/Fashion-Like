@@ -1,92 +1,80 @@
-import React, { useState } from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Select from "@mui/material/Select";
-import { IconButton, MenuItem, Tooltip, Typography } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+import React, { useEffect } from "react";
+import { Box, MenuItem, Select } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { fashionApiWithToken } from "../api/fashionApi";
+import { useDispatch, useSelector } from "react-redux";
+import { changeRole, setUsers } from "../store/users/usersSlice";
 
 export const ManageUsersScreen = () => {
-  const [age, setAge] = React.useState("");
+  const dispatch = useDispatch();
+  const { users } = useSelector((state) => state.users);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const selectOnChange = async (id, value) => {
+    const res = await fashionApiWithToken.patch("/users/" + id, {
+      role: value,
+    });
+    dispatch(changeRole(res.data.user))
   };
 
+  const columns = [
+    { field: "index", headerName: "ID", width: 150 },
+    {
+      field: "username",
+      headerName: "Nombre de usuario",
+      width: 250,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 250,
+      sortable: false
+    },
+    {
+      field: "role",
+      headerName: "Rol",
+      sortable: false,
+      width: 250,
+      renderCell: (params) => {
+        return (
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={params.value}
+            label="Age"
+            sx={{ width: "100%" }}
+            onChange={(e) => selectOnChange(params.id, e.target.value)}
+          >
+            <MenuItem value={"ROLE_ADMIN"}>Administrador</MenuItem>
+            <MenuItem value={"ROLE_USER"}>Usuario</MenuItem>
+          </Select>
+        );
+      },
+    },
+  ];
+
+  useEffect(() => {
+    console.log("HOla");
+    fashionApiWithToken.get("/users").then((res) => {
+      dispatch(
+        setUsers(
+          res.data.users
+        )
+      );
+      // Quitar usuario logeado
+    });
+  }, []);
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                <Typography>{row.name}</Typography>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={age}
-                  label="Age"
-                  onChange={handleChange}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-              </StyledTableCell>
-              <StyledTableCell align="right">
-                <Tooltip title="Eliminar usuario">
-                  <IconButton>
-                    <DeleteIcon color="error" />
-                  </IconButton>
-                </Tooltip>
-              </StyledTableCell>
-              <StyledTableCell align="right"></StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={users}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        getRowId={(row) => row._id}
+        disableSelectionOnClick
+        disableColumnSelector
+      />
+    </Box>
   );
 };

@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function NavBar() {
+function NavBar({ admin = false }) {
   const dispatch = useDispatch();
   const handleSearch = (e) => {
     dispatch(startSearchPost(e.target.value));
@@ -93,17 +93,21 @@ function NavBar() {
             Fashion Like
           </Typography>
           <div style={{ flex: 1 }} />
-          <Search sx={{ marginLeft: "auto" }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Buscar..."
-              inputProps={{ "aria-label": "search" }}
-              onChange={handleSearch}
-            />
-          </Search>
-          {user?.role === "ROLE_ADMIN" && <ModalComponent />}
+          {!admin && (
+            <>
+              <Search sx={{ marginLeft: "auto" }}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Buscar..."
+                  inputProps={{ "aria-label": "search" }}
+                  onChange={handleSearch}
+                />
+              </Search>
+              {user?.role === "ROLE_ADMIN" && <ModalComponent />}
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <SideBar />
