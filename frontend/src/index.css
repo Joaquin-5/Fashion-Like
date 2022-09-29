@@ -21,7 +21,6 @@
   flex-direction: column;
   gap: 2em;
   width: 100%;
-  overflow-y: scroll;
 }
 
 .grid-center {
@@ -79,6 +78,16 @@
   max-width: 1200px;
   padding: 50px;
   margin: 0 auto;
+}
+
+@media (max-width: 325px) {
+    .campos {
+      gap: 1.5rem;
+    }
+
+    .modal-title {
+      font-size: 1rem !important;
+    }
 }
 
 @media (max-width: 480px) {

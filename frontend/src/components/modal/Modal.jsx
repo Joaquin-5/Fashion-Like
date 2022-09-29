@@ -11,13 +11,12 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "90%",
   maxWidth: 400,
-  maxHeight: "410px",
-  height: '90vh',
+  maxHeight: '90vh',
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  borderRadius: '10px'
+  borderRadius: '10px',
 };
 
 export const ModalComponent = () => {
@@ -53,7 +52,7 @@ export const ModalComponent = () => {
               padding: "11px 14px",
             }}
           />
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography id="modal-modal-title" variant="h6" component="h2" className="modal-title">
             Crear una nueva publicación
           </Typography>
 

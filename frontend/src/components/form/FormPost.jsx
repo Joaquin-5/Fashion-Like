@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, useMediaQuery, useTheme } from "@mui/material";
 import { UploadImageButton } from "../UploadImageButton";
 import { useDispatch } from "react-redux";
 import { startAddNewPost, startEditPost } from "../../store/clothes";
@@ -24,6 +24,8 @@ export const FormPost = ({
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.up('sm'));
 
   console.log({descriptionProp, description});
 
@@ -91,6 +93,8 @@ export const FormPost = ({
           }}
           error={error}
           helperText={error ? errorMessage : null}
+          size={!isSmall ? 'small' : 'medium'}
+          sx={{fontSize: {xs: '1rem', md: '1.1rem'}}}
         />
         <TextField
           id="standard-multiline-flexible"
@@ -100,6 +104,8 @@ export const FormPost = ({
           variant="outlined"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          size={!isSmall ? 'small' : 'medium'}
+          sx={{fontSize: {xs: '1rem', md: '1.1rem'}}}
         />
         {image && (
           <div
