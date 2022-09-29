@@ -80,7 +80,7 @@ function NavBar({ admin = false }) {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2, display: user ? 'flex' : {xs: 'flex', md: 'none'} }}
+            sx={{ mr: 2, display: user ? "flex" : { xs: "flex", md: "none" } }}
             onClick={() => dispatch(openSideBar())}
           >
             <MenuIcon />
@@ -112,14 +112,27 @@ function NavBar({ admin = false }) {
                   onChange={handleSearch}
                 />
               </Search>
-              {user?.role === "ROLE_ADMIN" && user?.role === "ROLE_OWNER" && <ModalComponent />}
+              {(user?.role === "ROLE_ADMIN" || user?.role === "ROLE_OWNER") && (
+                <ModalComponent />
+              )}
             </>
           )}
-          <Box sx={{ display: !user ? {xs: 'none', md: 'flex'} : "none" }} gap={2}>
-            <Button onClick={() => navigate("/auth/login")} variant="contained" color="primary">
+          <Box
+            sx={{ display: !user ? { xs: "none", md: "flex" } : "none" }}
+            gap={2}
+          >
+            <Button
+              onClick={() => navigate("/auth/login")}
+              variant="contained"
+              color="primary"
+            >
               Iniciar sesión
             </Button>
-            <Button onClick={() => navigate("/auth/register")} variant="outlined" color="primary">
+            <Button
+              onClick={() => navigate("/auth/register")}
+              variant="outlined"
+              color="primary"
+            >
               Registrarse
             </Button>
           </Box>
