@@ -99,7 +99,6 @@ export const ManageUsersScreen = () => {
   ];
 
   useEffect(() => {
-    console.log("HOla");
     fashionApiWithToken.get("/users").then((res) => {
       dispatch(setUsers(res.data.users));
       // Quitar usuario logeado
@@ -107,54 +106,57 @@ export const ManageUsersScreen = () => {
   }, []);
 
   return (
-    <DataGrid
-      rows={users}
-      columns={columns}
-      pageSize={5}
-      rowsPerPageOptions={[5]}
-      getRowId={(row) => row._id}
-      disableSelectionOnClick
-      disableColumnSelector
-      autoHeight
-      // Texto de la tabla en español
-      localeText={{
-        noRowsLabel: "No hay usuarios",
-        toolbarDensity: "Tamaño",
-        toolbarDensityLabel: "Tamaño",
-        toolbarDensityCompact: "Compacto",
-        toolbarDensityStandard: "Estándar",
-        toolbarDensityComfortable: "Grande",
-        actionsCellMore: "Más",
-        actionsColumnIndex: "Acciones",
-        toolbarFilters: "Filtros",
-        toolbarFiltersLabel: "Mostrar filtros",
-        toolbarFiltersTooltipHide: "Ocultar filtros",
-        toolbarFiltersTooltipShow: "Mostrar filtros",
-        toolbarFiltersTooltipActive: (count) =>
-          count !== 1 ? `${count} filtros activos` : `${count} filtro activo`,
-        filterPanelAddFilter: "Añadir filtro",
-        filterPanelDeleteIconLabel: "Eliminar",
-        filterPanelOperators: "Operadores",
-        filterPanelOperatorAnd: "Y",
-        filterPanelOperatorOr: "O",
-        filterPanelColumns: "Columnas",
-        filterPanelInputLabel: "Valor",
-        filterPanelInputPlaceholder: "Valor del filtro",
-        columnMenuLabel: "Menú",
-        columnMenuShowColumns: "Mostrar columnas",
-        columnMenuFilter: "Filtrar",
-        columnMenuHideColumn: "Ocultar",
-        columnMenuUnsort: "Desordenar",
-        columnMenuSortAsc: "Ordenar ascendente",
-        columnMenuSortDesc: "Ordenar descendente",
-        columnHeaderFiltersTooltipActive: (count) =>
-          count !== 1 ? `${count} filtros activos` : `${count} filtro activo`,
-        columnHeaderFiltersLabel: "Mostrar filtros",
-        columnHeaderSortIconLabel: "Ordenar",
-        footerTotalItems: "Total:",
-        paginationRange: (from, to, count) => `${from}-${to} de ${count}`,
-        paginationRowsPerPage: "Filas por página:",
-      }}
-    />
+    <div className="dataGrid-container">
+      <DataGrid
+        rows={users}
+        columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]}
+        getRowId={(row) => row._id}
+        disableSelectionOnClick
+        disableColumnSelector
+        autoHeight
+        scrollbarSize={10}
+        // Texto de la tabla en español
+        localeText={{
+          noRowsLabel: "No hay usuarios",
+          toolbarDensity: "Tamaño",
+          toolbarDensityLabel: "Tamaño",
+          toolbarDensityCompact: "Compacto",
+          toolbarDensityStandard: "Estándar",
+          toolbarDensityComfortable: "Grande",
+          actionsCellMore: "Más",
+          actionsColumnIndex: "Acciones",
+          toolbarFilters: "Filtros",
+          toolbarFiltersLabel: "Mostrar filtros",
+          toolbarFiltersTooltipHide: "Ocultar filtros",
+          toolbarFiltersTooltipShow: "Mostrar filtros",
+          toolbarFiltersTooltipActive: (count) =>
+            count !== 1 ? `${count} filtros activos` : `${count} filtro activo`,
+          filterPanelAddFilter: "Añadir filtro",
+          filterPanelDeleteIconLabel: "Eliminar",
+          filterPanelOperators: "Operadores",
+          filterPanelOperatorAnd: "Y",
+          filterPanelOperatorOr: "O",
+          filterPanelColumns: "Columnas",
+          filterPanelInputLabel: "Valor",
+          filterPanelInputPlaceholder: "Valor del filtro",
+          columnMenuLabel: "Menú",
+          columnMenuShowColumns: "Mostrar columnas",
+          columnMenuFilter: "Filtrar",
+          columnMenuHideColumn: "Ocultar",
+          columnMenuUnsort: "Desordenar",
+          columnMenuSortAsc: "Ordenar ascendente",
+          columnMenuSortDesc: "Ordenar descendente",
+          columnHeaderFiltersTooltipActive: (count) =>
+            count !== 1 ? `${count} filtros activos` : `${count} filtro activo`,
+          columnHeaderFiltersLabel: "Mostrar filtros",
+          columnHeaderSortIconLabel: "Ordenar",
+          footerTotalItems: "Total:",
+          paginationRange: (from, to, count) => `${from}-${to} de ${count}`,
+          paginationRowsPerPage: "Filas por página:",
+        }}
+      />
+    </div>
   );
 };

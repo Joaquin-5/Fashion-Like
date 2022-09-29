@@ -73,6 +73,13 @@
   flex-direction: column;
 }
 
+.dataGrid-container {
+  width: 100%;
+  max-width: 1200px;
+  padding: 50px;
+  margin: 0 auto;
+}
+
 @media (max-width: 480px) {
     .home-container {
       flex-direction: column;
@@ -88,4 +95,10 @@
       width: 80%;
       max-width: 500px;
     }
+}
+
+@media (max-width: 700px) {
+  .dataGrid-container {
+    padding: 50px 10px;
+  }
 }
