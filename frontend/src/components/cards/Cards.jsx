@@ -116,7 +116,7 @@ export const Cards = ({
           <>
             <CardHeader
               action={
-                user?.role === "ROLE_ADMIN" ? (
+                (user?.role === "ROLE_ADMIN" || user?.role === "ROLE_OWNER") ? (
                   <IconButton
                     id="basic-button"
                     aria-label="settings"
