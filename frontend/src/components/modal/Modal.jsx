@@ -11,11 +11,13 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: "90%",
   maxWidth: 400,
-  maxHeight: "90vh",
+  maxHeight: "410px",
+  height: '90vh',
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: '10px'
 };
 
 export const ModalComponent = () => {
@@ -35,7 +37,6 @@ export const ModalComponent = () => {
         sx={{
           "& > div": {
             border: "none",
-            borderRadius: "10px",
             boxShadow: "0 0 10px -2px #000",
           },
         }}
