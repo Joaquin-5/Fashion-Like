@@ -38,7 +38,7 @@ export const SideBarItems = () => {
                 }}
               />
             </ListItem>
-            {user.role === "ROLE_ADMIN" && (
+            {user.role === "ROLE_OWNER" && (
               <>
                 <Divider />
                 <List>

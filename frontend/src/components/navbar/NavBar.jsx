@@ -1,5 +1,12 @@
 import React from "react";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
@@ -73,7 +80,7 @@ function NavBar({ admin = false }) {
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, display: user ? 'flex' : {xs: 'flex', md: 'none'} }}
             onClick={() => dispatch(openSideBar())}
           >
             <MenuIcon />
@@ -105,9 +112,17 @@ function NavBar({ admin = false }) {
                   onChange={handleSearch}
                 />
               </Search>
-              {user?.role === "ROLE_ADMIN" && <ModalComponent />}
+              {user?.role === "ROLE_ADMIN" && user?.role === "ROLE_OWNER" && <ModalComponent />}
             </>
           )}
+          <Box sx={{ display: !user ? {xs: 'none', md: 'flex'} : "none" }} gap={2}>
+            <Button onClick={() => navigate("/auth/login")} variant="contained" color="primary">
+              Iniciar sesión
+            </Button>
+            <Button onClick={() => navigate("/auth/register")} variant="outlined" color="primary">
+              Registrarse
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
       <SideBar />
