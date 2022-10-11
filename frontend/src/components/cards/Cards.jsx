@@ -33,11 +33,11 @@ import { actionLike, startDeletePost } from "../../store/clothes";
 import { CancelButton } from "../buttons/CancelButton";
 import { FormPost } from "../form/FormPost";
 import "./card.style.css";
-
-// eslint-disable-next-line no-unused-vars
 import { Numeric } from "../typeStat/Numeric";
 import { BarStats } from "../typeStat/Bar";
 import { PieStats } from "../typeStat/Pie";
+// eslint-disable-next-line no-unused-vars
+import {es} from "dayjs/locale/es";
 dayjs.locale("es");
 
 export const Cards = ({
@@ -274,7 +274,7 @@ export const Cards = ({
             onClick={() => setOpenStats(false)}
             style={{
               top: "-17px",
-              right: "-10px",
+              right: "-17px",
               background: "red",
               color: "white",
               borderRadius: "50%",
