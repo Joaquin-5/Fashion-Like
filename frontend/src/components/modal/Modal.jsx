@@ -36,7 +36,11 @@ export const ModalComponent = () => {
         sx={{
           "& > div": {
             border: "none",
-            boxShadow: "0 0 10px -2px #000",
+            boxShadow: "0 0 10px -2px #000", 
+            overflowY: 'auto',
+            '@media (min-width: 350px)': {
+              overflowY: 'visible'
+            }
           },
         }}
       >

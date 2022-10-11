@@ -83,6 +83,7 @@
 @media (max-width: 325px) {
     .campos {
       gap: 1.5rem;
+      overflow-y: scroll;
     }
 
     .modal-title {
